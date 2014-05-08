@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Find the closest or highest rated bathrooms on campus. View ratings and write reviews to ensure that you never have to use another smelly, crowded or unstocked bathroom again.">
+    <meta name="author" content="Team Stall Scrawl">
+    <link rel="shortcut icon" href="favicon_2.ico" type="image/x-icon">
+    <link href='http://fonts.googleapis.com/css?family=Rock+Salt|Architects+Daughter|Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="icon" href="favicon_2.ico" type="image/x-icon">
+
+    <title>Children Tracker</title>
+    <!-- <link href="theme.css" rel="stylesheet"> -->
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- <link href="theme_frontpage.css" rel="stylesheet"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        // $(document).off('.modal.data-api')
+         // alert("hello word!");
+    </script>
+
+
+
+
+
+</head>
+
+<body>
+    <!-- <img src="front_page2.png" class="img-responsive" width="100%" height="100%"> -->
+    <div class="container-fluid" role="main">
+
+        <p style = "margin-top:50%">
+            <button class="btn btn-lg btn-info btn-block" data-toggle="modal" data-target="#parent">Parent</button>
+
+            <div class="modal fade" id="parent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <center>
+                                <h4 class="modal-title" id="myModalLabel">Log in as parent</h4>
+                            </center>
+                        </div>
+                        <div class="modal-body">
+
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="prt_id" class="col-sx-2 control-label">Parent ID</label>
+                                    <div class="col-sx-10">
+                                        <input type="email" class="form-control" id="prt_id" placeholder="Parent ID">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword1" class="col-sx-2 control-label">Password</label>
+                                    <div class="col-sx-10">
+                                        <input type="password" class="form-control" id="inputPassword1" placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class = "to_show" style = "display:none">
+                                <div class="form-group">
+                                    <label for="inputPassword2" class="col-sx-2 control-label">Confirm Password</label>
+                                    <div class="col-sx-10">
+                                        <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sx-2 control-label">Email</label>
+                                    <div class="col-sx-10">
+                                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                    </div>
+                                </div>
+                              </div>
+                                <!-- <div id = "to_hide"> -->
+                                <div class="form-group to_hide">
+                                    <div class="col-sx-offset-2 col-sx-10">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox">Remember me
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>                                
+                                    
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block to_hide">Log in</button>
+                                    <!-- </div> -->
+                                        <button type = "submit" class="btn btn-primary btn-lg btn-block" id = "prt_signup">Sign Up</button>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="child" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <center>
+                                <h4 class="modal-title" id="myModalLabel">Log in as child
+                </h4>
+                            </center>
+                        </div>
+                        <div class="modal-body">
+
+                            <form class="form-horizontal" role="form">
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sx-2 control-label">Child ID</label>
+                                    <div class="col-sx-10">
+                                        <input type="password" class="form-control" id="inputPassword3" placeholder="Child ID">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sx-offset-2 col-sx-10">
+                                        <button  class="btn btn-default">Sign in</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-lg btn-info btn-block" data-toggle="modal" data-target="#child">Child</button>
+        </p>
+
+
+    </div>
+</body>
+
+</html>
+
+<script>
+
+$("#prt_signup").click(function(e){
+  // $('.to_hide').slideUp();
+  event.preventDefault();
+  
+  $('.to_hide').slideUp(400,function(){
+    $('.to_show').slideDown();
+  });
+  
+})
+</script>
