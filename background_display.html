@@ -24,7 +24,7 @@
 
 </head>
 
-<body>
+<body onload="getLocationInt()">
     <div class="container-fluid" role="main">
         <div class="logo-head">
             <center><img src="http://www.dcbandtogether.com/wp-content/uploads/2012/11/placeholder-logo.png" class="img-responsive" width = "50%"></center>
@@ -48,8 +48,7 @@
             </ul>
         </div>
 
-        <button onclick="getLocationInt()">Get Location Test</button>
-        <p> <strong>Your Location</strong> <br>(note: longitude set to random # to observe new location query occurs)</p>
+        <p> <strong>Your Location</strong> <br>(note: longitude set to random # to observe new location queries)</p>
         <p id="showLocation"></p>
 
     </div>
