@@ -1,6 +1,6 @@
 
 
-
+var x = getElementById("demo");
 function getLocationatIntervals(){
 //Query this user's location at a set interval starting from when the page loads
 	setInterval(getLocation, 1000);
@@ -13,7 +13,7 @@ function getLocation(){
 	}
 }
 function updatePosition(position){
-	alert("Position Obtained Successfullly");
+	x.innerHTML = "Position Updated";
 	//send Geopoint object called position to Parse Database
 	//set child object's error attribute to false and his error message to null
 }
