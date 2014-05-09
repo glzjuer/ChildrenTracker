@@ -1,6 +1,9 @@
-#map {
-	position: relative;
-	margin-top: 100px;
-	width: 500px;
-	height: 380px;
+#googleMap {
+	position: absolute;
+	margin-top: 2.5em;
+	margin-right: 1em;
+	margin-left: 1em;
+	margin-bottom: 1em;
+	width: 90%;
+	height: 70%;
 }
