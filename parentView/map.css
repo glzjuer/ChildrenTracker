@@ -1,0 +1,10 @@
+a:link, a:visited{
+    text-decoration: none;
+}
+#childrenMap {
+    width: 275px;
+    height: 355px;
+    float:center;
+	margin: 10px;
+}
+
