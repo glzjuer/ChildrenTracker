@@ -21,13 +21,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript">
-        // $(document).off('.modal.data-api')
-         // alert("hello word!");
-    </script>
-
-
-
+    <script src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
 
 
 </head>
@@ -49,11 +43,11 @@
                         </div>
                         <div class="modal-body">
 
-                            <form class="form-horizontal" role="form">
+                            <form class="form-horizontal" role="form" onlick="slideDown(); return false;" onsubmit="createNewUser();" action="parent_page.html">
                                 <div class="form-group">
                                     <label for="prt_id" class="col-sx-2 control-label">Parent ID</label>
                                     <div class="col-sx-10">
-                                        <input type="email" class="form-control" id="prt_id" placeholder="Parent ID">
+                                        <input type="name" class="form-control" id="prt_id" placeholder="Parent ID">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -90,7 +84,7 @@
                                     
                                         <button type="submit" class="btn btn-primary btn-lg btn-block to_hide">Log in</button>
                                     <!-- </div> -->
-                                        <button type = "submit" class="btn btn-primary btn-lg btn-block" id = "prt_signup">Sign Up</button>
+                                        <button type = "submit" class="btn btn-primary btn-lg btn-block" id = "prt_signup" >Sign Up</button>
                             </form>
 
                         </div>
@@ -124,7 +118,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sx-offset-2 col-sx-10">
-                                        <button  class="btn btn-default">Sign in</button>
+                                        <button  class="btn btn-default">Sign In</button>
                                     </div>
                                 </div>
                             </form>
@@ -142,19 +136,9 @@
 
 
     </div>
+
+<script type="text/javascript" src="index.js"></script>
 </body>
 
 </html>
 
-<script>
-
-$("#prt_signup").click(function(e){
-  // $('.to_hide').slideUp();
-  event.preventDefault();
-  
-  $('.to_hide').slideUp(400,function(){
-    $('.to_show').slideDown();
-  });
-  
-})
-</script>
