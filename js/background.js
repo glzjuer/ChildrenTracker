@@ -1,22 +1,31 @@
+/*
+This file contains all the code used to query the child's location and update the Parse database
+*/
+Parse.initialize(Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q, cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb);
 
-
-var x = getElementById("demo");
-function getLocationatIntervals(){
+var x = getElementById("showLocation");
+function getLocationInt(){
 //Query this user's location at a set interval starting from when the page loads
-	setInterval(getLocation, 1000);
+	getLocation();
+  setInterval(getLocation, 1000);
 }
 
 function getLocation(){
 //Obtains 
 	if (geoPosition.init()){
-		geoPosition.getCurrentPosition(updatePosition, raiseError);
+		geoPosition.getCurrentPosition(updatePosition);
 	}
 }
 function updatePosition(position){
-	x.innerHTML = "Position Updated";
-	//send Geopoint object called position to Parse Database
-	//set child object's error attribute to false and his error message to null
+  x.innerHTML ="Latitude: " + position.coords.latitude + 
+  "<br>Longitude: " + Math.random();  
+  
 }
+
+
+
+
+/*
 function raiseError(error){
 	//set error field to true
 	//set errormsg field to one of the following
@@ -37,4 +46,4 @@ function raiseError(error){
       break;
     }
     alert(errormsg);
-}
+}*/
