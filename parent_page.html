@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Team Navyl=">
+
+    <title>Code Adam</title>
+    <!-- Bootstrap core CSS -->
+	  <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+	<link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    <script src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+    <link href="theme.css" rel = "stylesheet">
+    <link href="mapView.css" rel = "stylesheet">
+</head>
+<body onload="initialize()">
+<div class="container" role="main">
+    <h1>Welcome!</h1>
+    <div class="btn-group">
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addChild">Add your child <span class="glyphicons glyphicon-plus"></span></button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" id="drop_list">
+                <li>Add new child</li>
+            </ul>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-default">Settings</button>
+
+</div>
+<div id="googleMap" display="block"></div>
+
+<!-- MODALS -->
+<div class="modal fade" id="addChild" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <form class="form-horizontal" role="form">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add your child</h4>
+            </div>
+            <div class="modal-body to_hide">
+                <div class="form-group">
+                    <label for="chld_name" class="col-sx-2 control-label">Name</label>
+                    <div class="col-sx-10">
+                        <input type="name" class="form-control" id="chld_id" placeholder="Your child's name">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body to_show" style="display:none">
+                <p>You've now added your child! Please enter the security code below on your child's phone to access their geolocation: </p>
+                <!--Actually give a new security code, but for now, just base code-->
+                <h3 id="security_code">Random Code</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="save">Save changes</button>
+            </div>
+        </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript" src="parent_page.js"></script>
+</body>
+</html>
+
