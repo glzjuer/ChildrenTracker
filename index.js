@@ -62,8 +62,17 @@
   		Parse.User.logIn($("#prt_id").val(), $("#inputPassword1").val(), {
   		  success: function(user) {
   		  	alert("successfully Log In!");
-
-  		  	location.href='parentView/parentView.html?'+ $("#prt_id").val();
+  		  	var query = new Parse.Query(Parse.User);
+  		  	query.equalTo("username", $("#prt_id").val());  // find all the women
+  		  	query.find({
+  		  	  success: function(newuser) {
+  		  	  	// console.log("Successfully retrieved " + newuser.length + " user");
+  		  	    var object = newuser[0];
+  		  	    // Do something with the returned Parse.Object values
+  		  	    location.href='parentView/parentView.html?'+ object.id;
+  		  	    // Do stuff
+  		  	  }
+  		  	});
   		    // Do stuff after successful login.
   		  },
   		  error: function(user, error) {
