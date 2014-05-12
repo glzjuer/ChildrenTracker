@@ -28,11 +28,12 @@
 
 <body>
     <!-- <img src="front_page2.png" class="img-responsive" width="100%" height="100%"> -->
-    <div class="container" role="main">
+    <div class="container">
 
-        <p style = "margin-top:50%">
+        <p style = "margin-top:60%">
             <button class="btn btn-lg btn-info btn-block" data-toggle="modal" data-target="#parent">Parent</button>
-
+<!--             <button class="btn btn-lg btn-info btn-block" onclick="login()">test</button>
+ -->            
             <div class="modal fade" id="parent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -43,37 +44,38 @@
                         </div>
                         <div class="modal-body">
 
-                            <form class="form-horizontal" role="form" onlick="slideDown(); return false;" onsubmit="createNewUser();" action="parent_page.html">
+                            <!--onlick="slideDown(); return false;" action="parent_page.html"  onsubmit="createNewUser();"-->
+                            <form class="form-horizontal" role="form" >
                                 <div class="form-group">
-                                    <label for="prt_id" class="col-sx-2 control-label">Parent ID</label>
-                                    <div class="col-sx-10">
+                                    <label for="prt_id" class="col-xs-4 control-label">Parent ID</label>
+                                    <div class="col-xs-12">
                                         <input type="name" class="form-control" id="prt_id" placeholder="Parent ID">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputPassword1" class="col-sx-2 control-label">Password</label>
-                                    <div class="col-sx-10">
+                                    <label for="inputPassword1" class="col-xs-4 control-label">Password</label>
+                                    <div class="col-xs-12">
                                         <input type="password" class="form-control" id="inputPassword1" placeholder="Password">
                                     </div>
                                 </div>
                                 <div class = "to_show" style = "display:none">
                                 <div class="form-group">
-                                    <label for="inputPassword2" class="col-sx-2 control-label">Confirm Password</label>
-                                    <div class="col-sx-10">
-                                        <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+                                    <label for="inputPassword2" class="col-xs-10 control-label">Confirm Password</label>
+                                    <div class="col-xs-12">
+                                        <input type="password" class="form-control" id="inputPassword2" placeholder="Confirm Password">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="inputEmail" class="col-sx-2 control-label">Email</label>
-                                    <div class="col-sx-10">
+                                    <label for="inputEmail" class="col-xs-2 control-label">Email</label>
+                                    <div class="col-xs-12">
                                         <input type="email" class="form-control" id="inputEmail" placeholder="Email">
                                     </div>
                                 </div>
                               </div>
                                 <!-- <div id = "to_hide"> -->
                                 <div class="form-group to_hide">
-                                    <div class="col-sx-offset-2 col-sx-10">
+                                    <div class="col-xs-offset-1 col-xs-11">
                                         <div class="checkbox">
                                             <label>
                                                 <input type="checkbox">Remember me
@@ -81,15 +83,15 @@
                                         </div>
                                     </div>
                                 </div>                                
-                                    
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block to_hide" onclick="location='parentView/parentView.html'">Log in</button>
+                                        <!--onclick="location='parentView/parentView.html'" -->
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block to_hide" onclick="login()">Log in</button>
                                     <!-- </div> -->
-                                        <button type = "submit" class="btn btn-primary btn-lg btn-block" id = "prt_signup" >Sign Up</button>
+                                        <button type = "submit" class="btn btn-primary btn-lg btn-block" id = "prt_signup" onclick="createNewUser()" >Sign Up</button>
                             </form>
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="reinitial()">Close</button>
                         </div>
                     </div>
                 </div>
