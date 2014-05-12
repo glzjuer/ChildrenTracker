@@ -18,6 +18,11 @@
  		Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
 
  		if (!open) {
+ 			if($("#inputPassword1").val() != $("inputPassword2").val()){
+ 				alert("Passwords Conflict!");
+ 				return ;
+ 			}
+
 		  	console.log("now creating!!");
 		  	console.log("username: "+$("#prt_id").val());
 		  	console.log("password: "+$("#inputPassword1").val());
@@ -57,7 +62,8 @@
   		Parse.User.logIn($("#prt_id").val(), $("#inputPassword1").val(), {
   		  success: function(user) {
   		  	alert("successfully Log In!");
-  		  	location.href='parentView/parentView.html';
+
+  		  	location.href='parentView/parentView.html?'+ $("#prt_id").val();
   		    // Do stuff after successful login.
   		  },
   		  error: function(user, error) {
