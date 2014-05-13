@@ -14,6 +14,7 @@
 		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
     	<script type="text/javascript" src="map.js"></script>
     	<link href="map.css" rel="stylesheet">
+    	<script src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
 		<!-- Latest compiled and minified JavaScript -->		
 		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 		
@@ -87,18 +88,18 @@
       	<div class="form-group">
                     <label for="chld_name" class="col-sx-2 control-label">Name</label>
                     <div class="col-sx-10">
-                        <input type="name" class="form-control" id="chld_id" placeholder="Your child's name">
+                        <input type="name" class="form-control" id="chld_name" placeholder="Your child's name">
                     </div>
                 </div>
       </div>
       <div class="modal-body to_show" style="display:none">
                 <p>You've now added your child! Please enter the security code below on your child's phone to access their geolocation: </p>
                 <!--Actually give a new security code, but for now, just base code-->
-                <h3 id="security_code">Random Code</h3>
+                <h3 id="security_code"></h3>
             </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" onclick="addChild()">Save changes</button>
       </div>
     </div>
   </div>

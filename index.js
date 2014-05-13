@@ -29,7 +29,7 @@
 
 		  	console.log("username: "+$("#prt_id").val());
 		  	console.log("password: "+$("#inputPassword1").val());
-		  	console.log("email: "+$("#inputEmail").val())*/
+		  	console.log("email: "+$("#inputEmail").val());
 			var user = new Parse.User();
 
 			user.set("username", $("#prt_id").val());
@@ -93,6 +93,9 @@
   		open = false;
   		console.log(open);
   	}
+
+  	
+
 	
 
 
