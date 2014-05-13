@@ -21,20 +21,35 @@ query.($("#childObjId").val(), {
 function getLocationInt(){
 //Query this user's location at a set interval starting from when the page loads
   getLocation();
-  setInterval(getLocation, 1000);
+  setInterval(getLocation, 5000);
 }
+
 
 function getLocation(){
-//Obtains location object
-	if (geoPosition.init()){
-		geoPosition.getCurrentPosition(updatePosition, raiseError);
-	}
+// Try W3C Geolocation (Preferred)
+  if(navigator.geolocation) {
+    browserSupportFlag = true;
+    navigator.geolocation.getCurrentPosition(updatePosition, handleNoGeolocation(browserSupportFlag));
+  }
+  // Browser doesn't support Geolocation
+  else {
+    browserSupportFlag = false;
+    handleNoGeolocation(browserSupportFlag);
+  }
+
+  function handleNoGeolocation(errorFlag) {
+    if (errorFlag == true) {
+      alert("Geolocation service failed.");
+    } 
+    else {
+      alert("Your browser doesn't support geolocation.");
+    }
+  }
 }
+
 function updatePosition(position){
   x.innerHTML ="Latitude: " + position.coords.latitude + 
-  "<br>Longitude: " + Math.random();  
-
-  childId.set("CurrentLocation", position);
+  "<br>Longitude: " + Math.random(); 
 }
 
 
