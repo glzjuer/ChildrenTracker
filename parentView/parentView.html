@@ -33,7 +33,7 @@
 		  <!-- Collect the nav links, forms, and other content for toggling -->
 		  <div class="collapse navbar-collapse" id="hide_collapse">
 		    <ul class="nav navbar-nav">
-		      <li class="active"><a href="#">Settings</a></li>
+		      <li class="active"><a data-toggle="modal" data-target="#myModal">Settings</a></li>
 		      <li><a href="#">About</a></li>
 		      <li><a href='#'>Help</a><li>
 		      <li><a href='#'>Log Out</a></li>
@@ -74,7 +74,35 @@
 			<div>
 		</p>
 
+<!-- SETTINGS MODAL -->
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title" id="myModalLabel">Add your child</h3>
+      </div>
+      <div class="modal-body to_hide">
+      	<div class="form-group">
+                    <label for="chld_name" class="col-sx-2 control-label">Name</label>
+                    <div class="col-sx-10">
+                        <input type="name" class="form-control" id="chld_id" placeholder="Your child's name">
+                    </div>
+                </div>
+      </div>
+      <div class="modal-body to_show" style="display:none">
+                <p>You've now added your child! Please enter the security code below on your child's phone to access their geolocation: </p>
+                <!--Actually give a new security code, but for now, just base code-->
+                <h3 id="security_code">Random Code</h3>
+            </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 		
 	</body>
 </html>

@@ -18,10 +18,10 @@
  		Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
 
  		if (!open) {
-		  	console.log("now creating!!");
+		  	/*console.log("now creating!!");
 		  	console.log("username: "+$("#prt_id").val());
 		  	console.log("password: "+$("#inputPassword1").val());
-		  	console.log("email: "+$("#inputEmail").val())
+		  	console.log("email: "+$("#inputEmail").val())*/
 			var user = new Parse.User();
 
 			user.set("username", $("#prt_id").val());
@@ -31,7 +31,7 @@
 			user.signUp(null, {
 			  success: function(user) {
 			    // Hooray! Let them use the app now.
-			    alert("Successfully!");
+			    alert("Successful!");
 			    location.href='index.html';
 			  },
 			  error: function(user, error) {
