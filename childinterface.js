@@ -17,7 +17,7 @@ query.($("#childObjId").val(), {
 });
 */
 
-
+var x = getElementbyId("showLocation")
 function getLocationInt(){
 //Query this user's location at a set interval starting from when the page loads
   getLocation();
@@ -29,7 +29,9 @@ function getLocation(){
 // Try W3C Geolocation (Preferred)
   if(navigator.geolocation) {
     browserSupportFlag = true;
-    navigator.geolocation.getCurrentPosition(updatePosition, handleNoGeolocation(browserSupportFlag));
+    navigator.geolocation.getCurrentPosition(updatePosition, function() {
+      handleNoGeolocation(browserSupportFlag);
+    });
   }
   // Browser doesn't support Geolocation
   else {
@@ -39,17 +41,18 @@ function getLocation(){
 
   function handleNoGeolocation(errorFlag) {
     if (errorFlag == true) {
-      alert("Geolocation service failed.");
+      x.innerHTML="Geolocation service failed.";
     } 
     else {
-      alert("Your browser doesn't support geolocation.");
+      x.innerHTML="Your browser doesn't support geolocation.";
     }
   }
 }
 
 function updatePosition(position){
-  x.innerHTML ="Latitude: " + position.coords.latitude + 
+  var showposition = "Latitude: "+ position.coords.latitude + 
   "<br>Longitude: " + Math.random(); 
+  x.innerHTML =msg;
 }
 
 
