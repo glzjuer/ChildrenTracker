@@ -12,35 +12,47 @@
     <title>Code Adam</title>
     
     <!-- Bootstrap core CSS -->
-	  <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
-	<link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
     <script src="childinterface.js"></script>
+    <script src="js/geoPosition.js"></script>
     <link rel="stylesheet" href="theme.css">
 
-    =
+
 </head>
 
-<body>
+<body onload="getLocationInt()">
     <div class="container-fluid" role="main">
-    <center>
-        <form role="form">
-            <div class="form-group">
-                <label for="inputChildID">
-                    <h3> Enter Child ID</h3>
-                    <p></p>
-                    <p></p>
-                </label>
-                <input type="child" class="form-control" id="childObjId" placeholder="Enter Child ID">
-            </div>
-        </form>
-        <button type="button" class="btn btn-lg btn-primary btn-block" onclick="location='background_display.html'">Submit</button></p> 
-    </center>
+        <div class="logo-head">
+            <center><img src="http://www.dcbandtogether.com/wp-content/uploads/2012/11/placeholder-logo.png" class="img-responsive" width = "50%"></center>
+        </div>    
+        <style>
+            .logo-head{
+                padding-top:25px;
+                padding-bottom:25px;
+                padding-right:50px;
+                padding-left:50px;
+            }
+        </style>
+
+        <div id="EmergencyContact">
+            <center><h3>Emergency Contact Info</h3></center>
+            <ul class="list-group">
+                <li class="list-group-item">Name: </li>
+                <li class="list-group-item">Relationship: </li>
+                <li class="list-group-item">Phone #: </li>
+                <li class="list-group-item">Address:</li>
+            </ul>
+        </div>
+
+        <p> <strong>Your Location</strong> <br>(note: longitude set to random # to observe new location queries)</p>
+        <p id="showLocation"></p>
+
     </div>
 
 
-<script type="text/javascript" src="childinterface.js"></script>
+
 </body>

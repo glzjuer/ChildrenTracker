@@ -1,10 +1,11 @@
 Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
 
 var x = getElementById("showLocation");
+/*
 
 var Child = Parse.Object.extend("Child");
-var query = new Parse.Query(Child);
-query.get($("#childObjId").val(), {
+var query = new Parse.Get(Child);
+query.($("#childObjId").val(), {
   success: function(childId) {
 
     // The object was retrieved successfully.
@@ -14,6 +15,7 @@ query.get($("#childObjId").val(), {
     // error is a Parse.Error with an error code and description.
   }
 });
+*/
 
 
 function getLocationInt(){
