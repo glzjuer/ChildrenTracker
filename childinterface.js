@@ -1,6 +1,5 @@
 Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
 
-var x = getElementById("showLocation");
 /*
 
 var Child = Parse.Object.extend("Child");
@@ -17,7 +16,7 @@ query.($("#childObjId").val(), {
 });
 */
 
-var x = getElementbyId("showLocation")
+var x = getElementbyId("showLocation");
 function getLocationInt(){
 //Query this user's location at a set interval starting from when the page loads
   getLocation();
