@@ -201,7 +201,35 @@ function Alice(){
         handleNoGeolocation(false);
       }
 
-};
+  };
+
+  /* addChild() adds a child to the parent's data structure 
+      Also outputs the child's ID number */
+    function addChild() {
+    
+      Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
+
+      var Child = Parse.Object.extend("Child");
+      var child = new Child();
+      child.set("name", $('#chld_name').val());
+
+      child.save(null, {
+        success: function(child) {
+          // Execute any logic that should take place after the object is saved.
+          $('#security_code').text(child.id);
+        },
+        error: function(child, error) {
+          // Execute any logic that should take place if the save fails.
+          // error is a Parse.Error with an error code and description.
+          alert('Failed to create new object, with error code: ' + error.description);
+        }
+      });
+
+      $('.to_hide').slideUp(400,function () {
+        $('.to_show').slideDown();
+      })
+    }
+
 
 
 
