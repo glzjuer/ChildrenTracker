@@ -41,7 +41,7 @@ function getLocation(){
 
   function handleNoGeolocation(errorFlag) {
     if (errorFlag == true) {
-      x.innerHTML="Geolocation service failed.";
+      x.innerHTML="Geolocation service failed.";)
     } 
     else {
       x.innerHTML="Your browser doesn't support geolocation.";
@@ -52,30 +52,7 @@ function getLocation(){
 function updatePosition(position){
   var showposition = "Latitude: "+ position.coords.latitude + 
   "<br>Longitude: " + Math.random(); 
-  x.innerHTML =msg;
-}
-
-
-function raiseError(error){
-	//set error field to true
-	//set errormsg field to one of the following
-	var errormsg;
-	switch(error.code) 
-    {
-    case error.PERMISSION_DENIED:
-      errormsg="User denied the request for Geolocation."
-      break;
-    case error.POSITION_UNAVAILABLE:
-      errormsg="Location information is unavailable."
-      break;
-    case error.TIMEOUT:
-      errormsg="The request to get user location timed out."
-      break;
-    case error.UNKNOWN_ERROR:
-      errormsg="An unknown error occurred."
-      break;
-    }
-    alert(errormsg);
+  x.innerHTML =showposition;
 }
 
 
