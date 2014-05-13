@@ -18,7 +18,15 @@
  		Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
 
  		if (!open) {
-		  	/*console.log("now creating!!");
+ 			
+		  	console.log("now creating!!");
+ 			if($("#inputPassword1").val() != $("inputPassword2").val()){
+ 				alert("Passwords Conflict!");
+ 				return ;
+ 			}
+
+		  	console.log("now creating!!");
+
 		  	console.log("username: "+$("#prt_id").val());
 		  	console.log("password: "+$("#inputPassword1").val());
 		  	console.log("email: "+$("#inputEmail").val())*/
@@ -57,7 +65,17 @@
   		Parse.User.logIn($("#prt_id").val(), $("#inputPassword1").val(), {
   		  success: function(user) {
   		  	alert("successfully Log In!");
-  		  	location.href='parentView/parentView.html';
+  		  	var query = new Parse.Query(Parse.User);
+  		  	query.equalTo("username", $("#prt_id").val());  // find all the women
+  		  	query.find({
+  		  	  success: function(newuser) {
+  		  	  	// console.log("Successfully retrieved " + newuser.length + " user");
+  		  	    var object = newuser[0];
+  		  	    // Do something with the returned Parse.Object values
+  		  	    location.href='parentView/parentView.html?'+ object.id;
+  		  	    // Do stuff
+  		  	  }
+  		  	});
   		    // Do stuff after successful login.
   		  },
   		  error: function(user, error) {
