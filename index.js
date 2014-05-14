@@ -86,16 +86,9 @@
   		  	  success: function(newuser) {
   		  	  	// console.log("Successfully retrieved " + newuser.length + " user");
   		  	    var object = newuser[0];
-<<<<<<< HEAD
-  		  	    // Do something with the returned Parse.Object values
-  		  	    location.href='parentView/parentView.html?'+ object.id;
-=======
+
 
   		  	    location.href='parentView/parentView.html?'+'userId='+object.id;
-  		  	    
-
-
->>>>>>> GL
   		  	    // Do stuff
   		  	  }
   		  	});
