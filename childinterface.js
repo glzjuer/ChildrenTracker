@@ -58,14 +58,15 @@ function updatePosition(position){
   Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
   var childID= getIDfromURL();
   var query = new Parse.Query("Child");
-  query.get(childID, {
-  success: function(child) {
-      alert("object retrieved");
+  query.equalTo("objectId", childID);
+  query.find({
+    success: function(child) {
+      alert("child object found")
       // The object was retrieved successfully. Update database.
-      child.set("CurrentLocation", position);
-      child.save;
+      child[0].set("CurrentLocation", position);
+      child[0].save();
     },
-      error: function(object, error) {
+    error: function(object, error) {
       // The object was not retrieved successfully.
       // error is a Parse.Error with an error code and description.
       alert("child object could not be updated");
@@ -77,20 +78,3 @@ function getIDfromURL(){
   var childId = window.location.search.substring(1);
   return childId;
 }
-
-
-
-
-
-/*
-Parse.initialize("NlM62oQaDFs1oPNPGgwZIS3uKgs0k8lDS6R8s7aO", "9Z7arzJtWrAGoaA5WAEJ98pocG0R2EV4I0WWrd6A");
-
-var d = new Date(); 
-var n = d.getTime()/3600000; 
-var query = Parse.Query(Children);
-
-window.getInterval(function() {
-	// Every 15 minutes, get the user's location data and send it to the cloud
-
-}, 1000*60*15);
-*/
