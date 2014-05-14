@@ -55,12 +55,12 @@ function updatePosition(position){
   "<br>Longitude: " + Math.random(); 
   x.innerHTML =showposition;
 
-  var childID= getIDfromURL();
-  console.log("  child object id:" + childID);
   //Update position in Parse database
   Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
-  
-  var query = new Parse.Query("Child");
+  var childID= getIDfromURL();  
+
+  var Child = Parse.Object.extend("Child");
+  var query = new Parse.Query(Child);
   query.equalTo("objectId", childID);
   query.find({
     success: function(child) {
@@ -80,6 +80,6 @@ function updatePosition(position){
 
 function getIDfromURL(){
   var childId = window.location.search.substring(1);
-  console.log("getIDfromURL called:" +childId);
+  console.log("getIDfromURL called: childId=" +childId);
   return childId;
 }
