@@ -64,7 +64,8 @@ function updatePosition(position){
     success: function(child) {
       alert("child object found")
       // The object was retrieved successfully. Update database.
-      child[0].set("CurrentLocation", position);
+      currentlocation = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
+      child[0].set("CurrentLocation", currentlocation);
       child[0].save();
     },
     error: function(object, error) {
