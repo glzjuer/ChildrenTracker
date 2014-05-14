@@ -17,7 +17,6 @@ query.($("#childId").val(), {
 
 function getLocationInt(){
 //Query this user's location at a set interval starting from when the page loads
-  console.log("getLocationInt function called");
   getLocation();
   self.setInterval(getLocation, 60000);
 }
@@ -49,7 +48,6 @@ function getLocation(){
 }
 
 function updatePosition(position){
-  console.log("updatePosition function called");
 
   //Display coordinates on childinterface screen
   var x = document.getElementById("showLocation");
@@ -58,7 +56,7 @@ function updatePosition(position){
   x.innerHTML =showposition;
 
   var childID= getIDfromURL();
-  console.log("child object id:" + childID);
+  console.log("  child object id:" + childID);
   //Update position in Parse database
   Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
   
@@ -82,6 +80,6 @@ function updatePosition(position){
 
 function getIDfromURL(){
   var childId = window.location.search.substring(1);
-  console.log("getIDfromURL called");
+  console.log("getIDfromURL called:" +childId);
   return childId;
 }
