@@ -17,12 +17,14 @@ query.($("#childId").val(), {
 
 function getLocationInt(){
 //Query this user's location at a set interval starting from when the page loads
+  alert("getLocationInt function called");
   getLocation();
   self.setInterval(getLocation, 60000);
 }
 
 
 function getLocation(){
+  alert("getLocation function called");
 // Try W3C Geolocation (Preferred)
   if(navigator.geolocation) {
     browserSupportFlag = true;
@@ -48,6 +50,8 @@ function getLocation(){
 }
 
 function updatePosition(position){
+  alert("updatePosition function called");
+
   //Display coordinates on childinterface screen
   var x = document.getElementById("showLocation");
   var showposition = "Latitude: "+ position.coords.latitude + 
@@ -57,12 +61,12 @@ function updatePosition(position){
   //Update position in Parse database
   Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
   var childID= getIDfromURL();
-  alert(childID);
+  alert("child object id:" + childID);
   var query = new Parse.Query("Child");
   query.equalTo("objectId", childID);
   query.find({
     success: function(child) {
-      alert("child object found")
+      alert("child object found");
       // The object was retrieved successfully. Update database.
       currentlocation = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
       child[0].set("CurrentLocation", currentlocation);
@@ -78,5 +82,6 @@ function updatePosition(position){
 
 function getIDfromURL(){
   var childId = window.location.search.substring(1);
+  alert("getIDfromURL function called");
   return childId;
 }
