@@ -1,5 +1,3 @@
-Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
-
 /*
 
 var Child = Parse.Object.extend("Child");
@@ -20,7 +18,7 @@ query.($("#childId").val(), {
 function getLocationInt(){
 //Query this user's location at a set interval starting from when the page loads
   getLocation();
-  self.setInterval(getLocation, 60000);
+  self.setInterval(getLocation, 5000);
 }
 
 
@@ -50,10 +48,35 @@ function getLocation(){
 }
 
 function updatePosition(position){
+  //Update position in Parse database
+  Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
+  var childID= getIDfromURL();
+  var query = new Parse.Query("Child");
+  query.get(childID, {
+  success: function(child) {
+      // The object was retrieved successfully. 
+      child.set("CurrentLocation", position);
+      child.save;
+    },
+      error: function(object, error) {
+      // The object was not retrieved successfully.
+      // error is a Parse.Error with an error code and description.
+      alert("child object could not be updated");
+
+      }
+    });
+
+  //Display coordinates on childinterface screen
   var x = document.getElementById("showLocation");
   var showposition = "Latitude: "+ position.coords.latitude + 
   "<br>Longitude: " + Math.random(); 
   x.innerHTML =showposition;
+}
+
+function getIDfromURL(){
+  var childId = window.location.search.substring(1);
+  alert(childId);
+  return childId;
 }
 
 
