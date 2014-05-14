@@ -3,7 +3,7 @@
 
 
 var map;
-var overlay;
+// var overlay;
 var floor = 1;
 
 
@@ -16,18 +16,23 @@ var locationNameArray = [];
 var markers = [];
 var image = 'me.png';
 
+var Sample = new google.maps.LatLng(42.0575, -87.6752778);
 
-//Tech109 Add
-var Tech109 = new google.maps.LatLng(42.0575, -87.6752778);
+// {latitude: 42.0, longitude: -87.67}
   
 var theRequest;
 var strs;
 var currentUser;
+
+google.maps.event.addDomListener(window, 'load', initialize_map);
+
+
 $(document).ready(function() {
     
     Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
     currentUser=Parse.User.current();
 
+    // As backup
     var url = location.search; 
     theRequest = new Object();
     var str = url.substr(1);
@@ -37,26 +42,12 @@ $(document).ready(function() {
     }
     console.log( "ready!" );
 
-    // var ul = $('#drop');
-    // currentUser.  
-      
-    // li = document.createElement("li");   
-      
-    // txt = document.createTextNode("Sam");  
-      
-    // li.className = 'new';  
-      
-    // li.onclick = function() {alert('helo');}  
-      
-    // li.appendChild(txt);  
-              
-    // ul.appendChild(li);  
-
+    //Create the dropdownlist
     var my_children = currentUser.get('children_array');
     console.log(my_children);
     $.each(my_children,function(index,value){
       console.log(value);
-      $('#drop').append('<li onclick = "console.log(this.id)" id = "'+value.id+'"><a>'+value.name+'</a></li>');
+      $('#drop').append('<li onclick = ShowChild(this.id) id = '+value.id+'><a>'+value.name+'</a></li>');
     })
     
 
@@ -64,9 +55,8 @@ $(document).ready(function() {
 
 
 
-
 function initialize_map() {
-  var srcImage, swBound, neBound;
+  
   var mapOptions = {
     zoom: 18
   };
@@ -75,9 +65,6 @@ function initialize_map() {
   map = new google.maps.Map(document.getElementById('childrenMap'),
       mapOptions);
 
-  var bounds = new google.maps.LatLngBounds(swBound, neBound);
-  overlay = new google.maps.GroundOverlay(srcImage, bounds);
-  overlay.setMap(map);
 
   // Try HTML5 geolocation
   if(navigator.geolocation) {
@@ -88,7 +75,7 @@ function initialize_map() {
       var infowindow = new google.maps.InfoWindow({
         map: map,
         position: pos,
-        content: 'Here is your current location.'
+        content: 'Your current location.'
       });
 //      locationArray[0] = pos;
 //      alert(pos);
@@ -111,7 +98,7 @@ function initialize_map() {
       }
 //  alert(locationArray[0]);
   
-
+  //Backup for multiple shows
   var coord;
   var i=0;
   for (coord in locationArray) {
@@ -144,7 +131,6 @@ function deleteMarkers(){
   setAllMap(null);
   markers=[];
 }
-var nameofbathroom;
 
 function attachActivityMessage(marker, num){
   var message = '<a data-toggle="modal" data-target="#details" id = "'+
@@ -162,6 +148,7 @@ function attachActivityMessage(marker, num){
   });
 }
 
+var child_location;
 
 function handleNoGeolocation(errorFlag) {
   if (errorFlag) {
@@ -172,7 +159,7 @@ function handleNoGeolocation(errorFlag) {
 
   var options = {
     map: map,
-    position: Tech109,
+    position: Sample,
     content: content
   };
 
@@ -180,9 +167,74 @@ function handleNoGeolocation(errorFlag) {
   map.setCenter(options.position);
 }
 
+function ShowChild(Child_id){
+  console.log("child_id: "+ Child_id);
+
+  var pos;
+  clearMarkers();
+
+  var Child = Parse.Object.extend("Child");
+  var child = new Parse.Query(Child);
+  child.equalTo("objectId", Child_id);
+  child.find({
+    success: function(results) {
+      // console.log("Successfully retrieved " + results.length + " scores.");
+      // Do something with the returned Parse.Object values
+      console.log("child found: "+results[0]);
+      // var new_children = new Array();
+      child_location = results[0].get('CurrentLocation');
+      console.log(child_location);
+      var pos = new google.maps.LatLng(child_location.latitude, child_location.longitude);
 
 
-google.maps.event.addDomListener(window, 'load', initialize_map);
+      var infowindow = new google.maps.InfoWindow({
+        map: map,
+        position: pos,
+        content: 'Here is Sam.'
+      });
+      var marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        title: 'Sam',
+        icon: image
+      });
+    },
+    error: function(error) {
+      alert("Error: " + error.code + " " + error.message);
+    }
+  });
+
+ 
+
+
+
+  // if(navigator.geolocation) {
+  //   navigator.geolocation.getCurrentPosition(function(position) {
+  //     pos = new google.maps.LatLng(position.coords.latitude,
+  //     position.coords.longitude);
+  //    console.log(pos);
+  //    map.setCenter(pos);
+  //    var infowindow = new google.maps.InfoWindow({
+  //      map: map,
+  //      position: pos,
+  //      content: 'Here is Sam.'
+  //    });
+  //    var marker = new google.maps.Marker({
+  //      position: pos,
+  //      map: map,
+  //      title: 'Sam',
+  //      icon: image
+  //    });
+  //   }, function() {
+  //     handleNoGeolocation(true);
+  //   });
+  // } else {
+  // // Browser doesn't support Geolocation
+  //   handleNoGeolocation(false);
+  // }
+
+};
+
 
 
 function Sam(){
@@ -257,7 +309,7 @@ function Alice(){
 
   /* addChild() adds a child to the parent's data structure 
       Also outputs the child's ID number */
-  function addChild(){
+  function addChild() {
     var to_add = $('#chld_name').val();
 
     var Child = Parse.Object.extend("Child");
@@ -310,6 +362,31 @@ function Alice(){
         alert("Error: " + error.code + " " + error.message);
       }
     });
+  }
+  
+ 
+  // use for children View
+  function upload_pos(){
+    var Child = Parse.Object.extend("Child");
+    var child = new Parse.Query(Child);
+    child.equalTo("objectId", "lHMDIjw566");
+    child.find({
+      success: function(results) {
+        // console.log("Successfully retrieved " + results.length + " scores.");
+        // Do something with the returned Parse.Object values
+        console.log("child found: "+results[0]);
+        // var new_children = new Array();
+        var child_location = new Parse.GeoPoint({latitude: 42.0, longitude: -87.67});
+        results[0].set('CurrentLocation',child_location);
+
+        console.log(results[0].get('CurrentLocation'));
+        results[0].save();
+      },
+      error: function(error) {
+        alert("Error: " + error.code + " " + error.message);
+      }
+    });
+
   }
 
 
