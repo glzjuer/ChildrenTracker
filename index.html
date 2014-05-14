@@ -109,21 +109,23 @@
                         </div>
                         <div class="modal-body">
 
-                            <form class="form-horizontal" role="form" method="link" action="childinterface.html">
+                            <form class="form-horizontal" role="form">
 
                                 <div class="form-group"> 
-                                    <label for="inputPassword3" class="col-sx-2 control-label">Child ID</label>
+                                    <label for="childID" class="col-sx-2 control-label">Child ID</label>
                                     <div class="col-sx-10">
-                                        <input type="text" class="form-control" name ="childId" id="inputPassword3" placeholder="Child ID">
+                                        <input type="text" class="form-control"  id="childID" placeholder="Child ID">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-sx-offset-2 col-sx-10">
-                                        <button class="btn btn-default" type ="submit">Next</button>
+                                        <button class="btn btn-default" onclick="validateID()"type ="submit">Next</button>
                                     </div>
                                 </div>
                             </form>
+                            <p style="color:red" id="invalidIdMsg"></p>
+                            
 
                         </div>
                         <div class="modal-footer">

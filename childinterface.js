@@ -4,7 +4,7 @@ Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2
 
 var Child = Parse.Object.extend("Child");
 var query = new Parse.Get(Child);
-query.($("#childObjId").val(), {
+query.($("#childId").val(), {
   success: function(childId) {
 
     // The object was retrieved successfully.
@@ -20,7 +20,7 @@ query.($("#childObjId").val(), {
 function getLocationInt(){
 //Query this user's location at a set interval starting from when the page loads
   getLocation();
-  self.setInterval(getLocation, 5000);
+  self.setInterval(getLocation, 60000);
 }
 
 

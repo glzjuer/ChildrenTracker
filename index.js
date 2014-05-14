@@ -75,7 +75,33 @@
   		open = false;
   		console.log(open);
   	}
-	
+
+  	//funtion to check that child ID exists in database
+  	function validateID(){
+  		//Clear interfering code settings
+  		event.preventDefault();
+  		var y = document.getElementById("invalidIdMsg");
+  		y.innerHTML = "";
+
+  		//Get child ID from user and search child database for object
+  		Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
+  		var Child = Parse.Object.extend("Child");
+		var query = new Parse.Query(Child);
+		query.get($("#childID").val(), {
+		success: function(child) {
+			// The object was retrieved successfully. Redirect to next page
+			window.location="childinterface.html"+"?childID="+$("#childID").val();
+		}
+		,
+			error: function(object, error) {
+			// The object was not retrieved successfully.
+			// error is a Parse.Error with an error code and description.
+			
+			y.innerHTML="Invalid input. Enter valid childID";
+
+			}
+		});
+	}
 
 
 
