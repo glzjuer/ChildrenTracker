@@ -48,13 +48,20 @@ function getLocation(){
 }
 
 function updatePosition(position){
+  //Display coordinates on childinterface screen
+  var x = document.getElementById("showLocation");
+  var showposition = "Latitude: "+ position.coords.latitude + 
+  "<br>Longitude: " + Math.random(); 
+  x.innerHTML =showposition;
+
   //Update position in Parse database
   Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
   var childID= getIDfromURL();
   var query = new Parse.Query("Child");
   query.get(childID, {
   success: function(child) {
-      // The object was retrieved successfully. 
+      alert("object retrieved");
+      // The object was retrieved successfully. Update database.
       child.set("CurrentLocation", position);
       child.save;
     },
@@ -62,15 +69,8 @@ function updatePosition(position){
       // The object was not retrieved successfully.
       // error is a Parse.Error with an error code and description.
       alert("child object could not be updated");
-
       }
-    });
-
-  //Display coordinates on childinterface screen
-  var x = document.getElementById("showLocation");
-  var showposition = "Latitude: "+ position.coords.latitude + 
-  "<br>Longitude: " + Math.random(); 
-  x.innerHTML =showposition;
+    });  
 }
 
 function getIDfromURL(){
