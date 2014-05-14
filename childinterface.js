@@ -57,9 +57,8 @@ function updatePosition(position){
 
   //Update position in Parse database
   Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
-  var childID= getIDfromURL();
-  console.log("childID = "+childID);  
- 
+  
+  var childID= getIDfromURL(); 
   var query = new Parse.Query("Child");
   query.equalTo("objectId", childID);
   query.find({
