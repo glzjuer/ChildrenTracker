@@ -50,6 +50,7 @@
 			user.set("username", $("#prt_id").val());
 			user.set("password", $("#inputPassword1").val());
 			user.set("email", $("#inputEmail").val());
+			user.set("children_array",[]);
 
 			user.signUp(null, {
 			  success: function(user) {
