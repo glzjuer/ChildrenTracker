@@ -57,10 +57,11 @@ function updatePosition(position){
   "<br>Longitude: " + Math.random(); 
   x.innerHTML =showposition;
 
-  //Update position in Parse database
-  Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
   var childID= getIDfromURL();
   console.log("child object id:" + childID);
+  //Update position in Parse database
+  Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
+  
   var query = new Parse.Query("Child");
   query.equalTo("objectId", childID);
   query.find({
