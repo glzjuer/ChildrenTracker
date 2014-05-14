@@ -8,7 +8,7 @@
 		console.log("ready!!");
 		var currentUser = Parse.User.current();
 		if (currentUser) {
-		    location.href='parentView/parentView.html?userId='+ currentUser.id;
+		    // location.href='parentView/parentView.html?userId='+ currentUser.id;
 		    // do stuff with the user
 		} else {
 		    // show the signup or login page

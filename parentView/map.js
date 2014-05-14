@@ -28,10 +28,6 @@ $(document).ready(function() {
     Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
     currentUser=Parse.User.current();
 
-    var User = Parse.Object.extend("User");
-    var thisparent = new Parse.Query(User);
-    thisparent.equalTo("objectId", currentUser.id);
-
     var url = location.search; 
     theRequest = new Object();
     var str = url.substr(1);
@@ -56,11 +52,13 @@ $(document).ready(function() {
               
     // ul.appendChild(li);  
 
-    var my_children = thisparent.get('children_array');
+    var my_children = currentUser.get('children_array');
     console.log(my_children);
-
+    $.each(my_children,function(index,value){
+      console.log(value);
+      $('#drop').append('<li id = "'+value.id+'"><a href="#" onclick="" >'+value.name+'</a></li>')
+    })
     
-      
 
 });
 
@@ -311,10 +309,13 @@ function Alice(){
           var to_update = results[0].get("children_array");
           var to_update_item = {'id':child_id,'name':child_name};
           to_update.push(to_update_item);
+          // to_update =[{'id':'lHMDIjw566','name':'1234_6'},
+          //             {'id':'hZ1SkoAjA4','name':'1234_4'},
+          //             {'id':'3xJYNDwkJB','name':'1234_2'},
+          //             {'id':'CSW2QQss37','name':'1234_1'}]
           console.log(to_update);
           results[0].set("children_array",to_update);
           results[0].save();
-
         },
         error: function(error) {
           alert("Error: " + error.code + " " + error.message);
