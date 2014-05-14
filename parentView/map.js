@@ -1,6 +1,7 @@
 // Note: This function requires that you consent to location sharing when
 // prompted by your browser.
 
+
 var map;
 var overlay;
 var floor = 1;
@@ -18,6 +19,51 @@ var image = 'me.png';
 
 //Tech109 Add
 var Tech109 = new google.maps.LatLng(42.0575, -87.6752778);
+  
+var theRequest;
+var strs;
+var currentUser;
+$(document).ready(function() {
+    
+    Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
+    currentUser=Parse.User.current();
+
+    var User = Parse.Object.extend("User");
+    var thisparent = new Parse.Query(User);
+    thisparent.equalTo("objectId", currentUser.id);
+
+    var url = location.search; 
+    theRequest = new Object();
+    var str = url.substr(1);
+    strs = str.split("&");
+    for(var i = 0; i < strs.length; i ++) {
+       theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]);
+    }
+    console.log( "ready!" );
+
+    // var ul = $('#drop');
+    // currentUser.  
+      
+    // li = document.createElement("li");   
+      
+    // txt = document.createTextNode("Sam");  
+      
+    // li.className = 'new';  
+      
+    // li.onclick = function() {alert('helo');}  
+      
+    // li.appendChild(txt);  
+              
+    // ul.appendChild(li);  
+
+    var my_children = thisparent.get('children_array');
+    console.log(my_children);
+
+    
+      
+
+});
+
 
 
 
@@ -203,31 +249,77 @@ function Alice(){
 
   };
 
+
+  function logout(){
+    // var currentUser = Parse.User.current();
+    Parse.User.logOut();
+    location.href='../index.html';
+    console.log(currentUser + "logout!");
+  }
+
   /* addChild() adds a child to the parent's data structure 
       Also outputs the child's ID number */
     function addChild() {
-    
-      Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
+      var to_add = $('#chld_name').val();
 
       var Child = Parse.Object.extend("Child");
       var child = new Child();
-      child.set("name", $('#chld_name').val());
+      child.set("Name", to_add);
+      child.set("parentId",currentUser.id);
 
       child.save(null, {
         success: function(child) {
           // Execute any logic that should take place after the object is saved.
           $('#security_code').text(child.id);
+          update_prt(child.id,to_add);
+          console.log(child);
         },
         error: function(child, error) {
           // Execute any logic that should take place if the save fails.
           // error is a Parse.Error with an error code and description.
-          alert('Failed to create new object, with error code: ' + error.description);
+          alert('Failed to add child, with error code: ' + error.description);
         }
       });
+
+      
+      
+
+
+      
+
+
+
+
+
 
       $('.to_hide').slideUp(400,function () {
         $('.to_show').slideDown();
       })
+    }
+
+    function update_prt(child_id, child_name){
+      var User = Parse.Object.extend("User");
+      var user = new Parse.Query(User);
+      user.equalTo("objectId", currentUser.id);
+      user.find({
+        success: function(results) {
+          // console.log("Successfully retrieved " + results.length + " scores.");
+          // Do something with the returned Parse.Object values
+          console.log(results[0]);
+          // var new_children = new Array();
+          console.log(results[0].get('children_array'));
+          var to_update = results[0].get("children_array");
+          var to_update_item = {'id':child_id,'name':child_name};
+          to_update.push(to_update_item);
+          console.log(to_update);
+          results[0].set("children_array",to_update);
+          results[0].save();
+
+        },
+        error: function(error) {
+          alert("Error: " + error.code + " " + error.message);
+        }
+      });
     }
 
 

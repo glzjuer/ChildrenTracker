@@ -2,6 +2,21 @@
 //Flag for different instances of pressing 
 	var open=false;
 
+
+	$(document).ready(function(){
+		Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
+		console.log("ready!!");
+		var currentUser = Parse.User.current();
+		if (currentUser) {
+		    location.href='parentView/parentView.html?userId='+ currentUser.id;
+		    // do stuff with the user
+		} else {
+		    // show the signup or login page
+		}
+
+
+	});
+
 	function slideDown() {
 		  event.preventDefault();
 		  
@@ -71,8 +86,11 @@
   		  	  success: function(newuser) {
   		  	  	// console.log("Successfully retrieved " + newuser.length + " user");
   		  	    var object = newuser[0];
-  		  	    // Do something with the returned Parse.Object values
-  		  	    location.href='parentView/parentView.html?'+ object.id;
+
+  		  	    location.href='parentView/parentView.html?'+'userId='+object.id;
+  		  	    
+
+
   		  	    // Do stuff
   		  	  }
   		  	});
