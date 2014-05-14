@@ -35,10 +35,10 @@
  		if (!open) {
  			
 		  	console.log("now creating!!");
- 			if($("#inputPassword1").val() != $("inputPassword2").val()){
- 				alert("Passwords Conflict!");
- 				return ;
- 			}
+ 			// if($("#inputPassword1").val() != $("inputPassword2").val()){
+ 			// 	alert("Passwords Conflict!");
+ 			// 	return ;
+ 			// }
 
 		  	console.log("now creating!!");
 
