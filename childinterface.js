@@ -56,7 +56,7 @@ function updatePosition(position){
   x.innerHTML =showposition;
 
   //Update position in Parse database
-  Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
+ // Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
   var childID= getIDfromURL();  
 
   var Child = Parse.Object.extend("Child");
