@@ -56,7 +56,7 @@ $(document).ready(function() {
     console.log(my_children);
     $.each(my_children,function(index,value){
       console.log(value);
-      $('#drop').append('<li id = "'+value.id+'"><a href="#" onclick="" >'+value.name+'</a></li>')
+      $('#drop').append('<li onclick = "console.log(this.id)" id = "'+value.id+'"><a>'+value.name+'</a></li>');
     })
     
 
