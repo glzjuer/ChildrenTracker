@@ -75,7 +75,6 @@ function updatePosition(position){
 
 function getIDfromURL(){
   var childId = window.location.search.substring(1);
-  alert(childId);
   return childId;
 }
 
