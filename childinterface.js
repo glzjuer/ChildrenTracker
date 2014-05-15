@@ -14,6 +14,17 @@ query.($("#childId").val(), {
 });
 */
 
+$(document).ready(function() {
+  var url = location.search; 
+    // theRequest = new Object();
+    var str = url.substr(1);
+    // strs = str.split("&");
+    // for(var i = 0; i < strs.length; i ++) {
+    //    theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]);
+    // }
+    console.log(str);
+  // nIntervId = setInterval(updatePosition, 5000);
+})
 
 function getLocationInt(){
 //Query this user's location at a set interval starting from when the page loads
@@ -83,3 +94,5 @@ function getIDfromURL(){
   console.log("getIDfromURL called: childId=" +childId);
   return childId;
 }
+
+
