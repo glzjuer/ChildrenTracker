@@ -17,6 +17,7 @@
     	<script src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
 		<!-- Latest compiled and minified JavaScript -->		
 		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<script src="../queue.js"></script>
 		
 	</head>
 	<body >
@@ -61,12 +62,13 @@
 			    Choose Time<span class="caret"></span>
 			  </button>
 			  <ul class="dropdown-menu pull-right btn-block" role="menu">
-			    <li><a href="#">10 minutes ago</a></li>
-			    <li><a href="#">20 minutes ago</a></li>
-			    <li><a href="#">30 minutes ago</a></li>
-			    <li><a href="#">40 minutes ago</a></li>
-			    <li><a href="#">50 minutes ago</a></li>
-			    <li><a href="#">60 minutes ago</a></li>
+			  	<li><a href="#" id="curent">Current</a></li>
+			    <li><a href="#" id="0" onclick="Show_history(this.id)">10 minutes ago</a></li>
+			    <li><a href="#" id="1" onclick="Show_history(this.id)">20 minutes ago</a></li>
+			    <li><a href="#" id="2" onclick="Show_history(this.id)">30 minutes ago</a></li>
+			    <li><a href="#" id="3" onclick="Show_history(this.id)">40 minutes ago</a></li>
+			    <li><a href="#" id="4" onclick="Show_history(this.id)">50 minutes ago</a></li>
+			    <li><a href="#" id="5" onclick="Show_history(this.id)">60 minutes ago</a></li>
 			  </ul>
 			</div>
 		</div>
