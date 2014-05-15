@@ -5,6 +5,7 @@
 var map;
 // var overlay;
 var floor = 1;
+var currentChild;
 
 
 
@@ -51,10 +52,16 @@ $(document).ready(function() {
     console.log(my_children);
     $.each(my_children,function(index,value){
       console.log(value);
-      $('#drop').append('<li onclick = ShowChild(this.id) id = '+value.id+'><a>'+value.name+'</a></li>');
+      $('#drop').append('<li onclick = "currentChild = this.id;ShowChild(this.id)" id = '+value.id+'><a>'+value.name+'</a></li>');
     })
-    
-
+    //current click
+    $('#current').on('click',function(){
+      if(currentChild !== undefined){
+        console.log("currentChild is "+ currentChild);
+        ShowChild(currentChild);
+      }
+      else alert("select a child");
+    })
 });
 
 
@@ -385,7 +392,6 @@ function Alice(){
     });
 
   }
-
 
 
 
