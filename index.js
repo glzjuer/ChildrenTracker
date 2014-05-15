@@ -50,6 +50,7 @@
 			user.set("username", $("#prt_id").val());
 			user.set("password", $("#inputPassword1").val());
 			user.set("email", $("#inputEmail").val());
+			user.set("children_array",[]);
 
 			user.signUp(null, {
 			  success: function(user) {
@@ -115,25 +116,38 @@
   	function validateID(){
   		//Clear interfering code settings
   		event.preventDefault();
-  		var y = document.getElementById("invalidIdMsg");
-  		y.innerHTML = "";
+
+
+  		var child_Id = $('#childID').val();
 
   		//Get child ID from user and search child database for object
   		Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
-		var query = new Parse.Query("Child");
-		query.get($("#childID").val(), {
-		success: function(child) {
-			// The object was retrieved successfully. Redirect to next page
-			window.location="childinterface.html"+"?"+$("#childID").val();
-		},
-			error: function(object, error) {
-			// The object was not retrieved successfully.
-			// error is a Parse.Error with an error code and description.
-			
-			y.innerHTML="Invalid input. Enter valid childID";
+		
+  		var Child = Parse.Object.extend("Child");
+  		var child = new Parse.Query(Child);
+  		child.equalTo("objectId", child_Id);
+  		console.log(child);
+  		child.find({
+  		  success: function(results) {
+  		    // console.log("Successfully retrieved " + results.length + " scores.");
+  		    // Do something with the returned Parse.Object values
+  		    console.log(results);
+  		    if(results.length == 0){
+  		    	$('#invalidIdMsg').text("No such child, Please Check!");
+  		    }else{
+  		    	window.location="childinterface.html"+"?"+child_Id;
 
-			}
-		});
+  		    }
+
+  		  },
+  		  error: function(error) {
+  		  	$('#invalidIdMsg').text("Parse Find failed!");
+
+  		    // alert("Error: " + error.code + " " + error.message);
+  		  }
+  		});
+
+	
 	}
 
 
