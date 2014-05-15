@@ -20,6 +20,7 @@ var q;
 var to_push;
 
 $(document).ready(function() {
+  Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
   // var url = location.search; 
   //   // theRequest = new Object();
   //   var str = url.substr(1);
@@ -27,14 +28,31 @@ $(document).ready(function() {
     // for(var i = 0; i < strs.length; i ++) {
     //    theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]);
     // }
+
     q = new Q();
     getIDfromURL();
     // setInterval(updatePosition,5000);
+    var currentChild = new Parse.Query("Child");
+    currentChild.equalTo("objectId", childId);
+    currentChild.find({
+      success: function(child) {
+        // console.log("child object found: "+childId);
+        // The object was retrieved successfully. Update database.
+        // currentlocation = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
+        // console.log(currentlocation);
+        $('#name').text($('#name').text()+ child[0].get('Name'));
+        $("#parent").text($("#parent").text()+child[0].get("parent").name);
+      },
+      error: function(object, error) {
+        // The object was not retrieved successfully.
+        // error is a Parse.Error with an error code and description.
+        console.log("child object could not be retrieved");
+        }
+      });
+
     setInterval(push_history, 15000);
 
 
-    // console.log(s);
-  // nIntervId = setInterval(updatePosition, 5000);
 })
   function push_history(){
     

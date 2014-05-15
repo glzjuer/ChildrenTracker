@@ -208,37 +208,14 @@ function ShowChild(Child_id){
     }
   });
 
- 
-
-
-
-  // if(navigator.geolocation) {
-  //   navigator.geolocation.getCurrentPosition(function(position) {
-  //     pos = new google.maps.LatLng(position.coords.latitude,
-  //     position.coords.longitude);
-  //    console.log(pos);
-  //    map.setCenter(pos);
-  //    var infowindow = new google.maps.InfoWindow({
-  //      map: map,
-  //      position: pos,
-  //      content: 'Here is Sam.'
-  //    });
-  //    var marker = new google.maps.Marker({
-  //      position: pos,
-  //      map: map,
-  //      title: 'Sam',
-  //      icon: image
-  //    });
-  //   }, function() {
-  //     handleNoGeolocation(true);
-  //   });
-  // } else {
-  // // Browser doesn't support Geolocation
-  //   handleNoGeolocation(false);
-  // }
-
 };
 
+
+
+function Show_history(child_id){
+  console.log(child_id);
+
+}
 
 
 function Sam(){
@@ -320,8 +297,8 @@ function Alice(){
     var Child = Parse.Object.extend("Child");
     child = new Child();
     child.set("Name", to_add);
-    child.set("parentId",currentUser.id);
     child.set("history", []);
+    child.set("parent",{"name":currentUser.get("username"),"id":currentUser.id});
 
     child.save(null, {
       success: function(child) {
