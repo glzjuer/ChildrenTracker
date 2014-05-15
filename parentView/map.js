@@ -52,7 +52,7 @@ $(document).ready(function() {
     console.log(my_children);
     $.each(my_children,function(index,value){
       console.log(value);
-      $('#drop').append('<li onclick = "currentChild = this.id;ShowChild(this.id)" id = '+value.id+'><a>'+value.name+'</a></li>');
+      $('#drop').append('<li onclick = "currentChild = this.id;click_child()" id = '+value.id+'><a>'+value.name+'</a></li>');
     })
     //current click
     $('#current').on('click',function(){
@@ -178,15 +178,31 @@ function handleNoGeolocation(errorFlag) {
   map.setCenter(options.position);
 }
 
-function ShowChild(Child_id){
-  console.log("child_id: "+ Child_id);
+
+ function click_child(){
+  console.log(currentChild);
+  click_now = setInterval(ShowChild,3000);
+
+
+ }
+
+var window_flag = false; 
+var child_infowindow;
+
+
+function ShowChild(){
+  if(window_flag){
+    child_infowindow.close();
+  }
+  window_flag = true;
+  console.log("child_id: "+ currentChild);
 
   var pos;
   clearMarkers();
 
   var Child = Parse.Object.extend("Child");
   var child = new Parse.Query(Child);
-  child.equalTo("objectId", Child_id);
+  child.equalTo("objectId", currentChild);
   child.find({
     success: function(results) {
       // console.log("Successfully retrieved " + results.length + " scores.");
@@ -194,19 +210,21 @@ function ShowChild(Child_id){
       console.log("child found: "+results[0]);
       // var new_children = new Array();
       child_location = results[0].get('CurrentLocation');
+      var child_name = results[0].get('Name');
       console.log(child_location);
+
       var pos = new google.maps.LatLng(child_location.latitude, child_location.longitude);
 
 
-      var infowindow = new google.maps.InfoWindow({
+      child_infowindow = new google.maps.InfoWindow({
         map: map,
         position: pos,
-        content: 'Here is Sam.'
+        content: 'Here is '+ child_name,
       });
       var marker = new google.maps.Marker({
         position: pos,
         map: map,
-        title: 'Sam',
+        title: child_name,
         icon: image
       });
     },
@@ -219,73 +237,57 @@ function ShowChild(Child_id){
 
 
 
-function Show_history(child_id){
-  console.log(child_id);
+function Show_history(index){
+  clearInterval(click_now);
+
+  if(window_flag){
+    child_infowindow.close();
+  }
+  window_flag = true;
+  console.log("child_id: "+ currentChild);
+
+  var pos;
+  clearMarkers();
+
+  var Child = Parse.Object.extend("Child");
+  var child = new Parse.Query(Child);
+  child.equalTo("objectId", currentChild);
+  child.find({
+    success: function(results) {
+      // console.log("Successfully retrieved " + results.length + " scores.");
+      // Do something with the returned Parse.Object values
+      console.log("child found: "+results[0]);
+      // var new_children = new Array();
+      child_location = results[0].get('history')[index];
+      var child_name = results[0].get('Name');
+      console.log(results[0].get('history'));
+      console.log(child_location);
+
+      var pos = new google.maps.LatLng(child_location.Latitude, child_location.Longitude);
+
+
+      child_infowindow = new google.maps.InfoWindow({
+        map: map,
+        position: pos,
+        content: 'Here is '+ child_name,
+      });
+      var marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        title: child_name,
+        icon: image
+      });
+    },
+    error: function(error) {
+      alert("Error: " + error.code + " " + error.message);
+    }
+  });
+ 
+
+
+
 
 }
-
-
-function Sam(){
-      var pos;
-      clearMarkers();
-
-      if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          pos = new google.maps.LatLng(position.coords.latitude,
-          position.coords.longitude);
-         console.log(pos);
-         map.setCenter(pos);
-         var infowindow = new google.maps.InfoWindow({
-           map: map,
-           position: pos,
-           content: 'Here is Sam.'
-         });
-         var marker = new google.maps.Marker({
-           position: pos,
-           map: map,
-           title: 'Sam',
-           icon: image
-         });
-        }, function() {
-          handleNoGeolocation(true);
-        });
-      } else {
-      // Browser doesn't support Geolocation
-        handleNoGeolocation(false);
-      }
-
-};
-
-function Alice(){
-      var pos;
-      clearMarkers();
-
-      if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          pos = new google.maps.LatLng(position.coords.latitude,
-          position.coords.longitude);
-         console.log(pos);
-         map.setCenter(pos);
-         var infowindow = new google.maps.InfoWindow({
-           map: map,
-           position: pos,
-           content: 'Here is Alice.'
-         });
-         var marker = new google.maps.Marker({
-           position: pos,
-           map: map,
-           title: 'Alice',
-           icon: image
-         });
-        }, function() {
-          handleNoGeolocation(true);
-        });
-      } else {
-      // Browser doesn't support Geolocation
-        handleNoGeolocation(false);
-      }
-
-  };
 
 
   function logout(){
