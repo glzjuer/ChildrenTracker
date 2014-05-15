@@ -34,17 +34,6 @@
 
  		if (!open) {
  			
-		  	console.log("now creating!!");
- 			// if($("#inputPassword1").val() != $("inputPassword2").val()){
- 			// 	alert("Passwords Conflict!");
- 			// 	return ;
- 			// }
-
-		  	console.log("now creating!!");
-
-		  	console.log("username: "+$("#prt_id").val());
-		  	console.log("password: "+$("#inputPassword1").val());
-		  	console.log("email: "+$("#inputEmail").val());
 			var user = new Parse.User();
 
 			user.set("username", $("#prt_id").val());
@@ -55,8 +44,7 @@
 			user.signUp(null, {
 			  success: function(user) {
 			    // Hooray! Let them use the app now.
-			    alert("Successful!");
-			    location.href='index.html';
+			    location.href='parentView/parentView.html';
 			  },
 			  error: function(user, error) {
 			    // Show the error message somewhere and let the user try again.
@@ -68,9 +56,7 @@
 			  $('.to_hide').slideUp(400,function(){
 			    $('.to_show').slideDown();
 			  });
-			  console.log(open);
 		}
-		console.log("end!");
 		// return false;
   	} 
 
@@ -80,7 +66,6 @@
 
   		Parse.User.logIn($("#prt_id").val(), $("#inputPassword1").val(), {
   		  success: function(user) {
-  		  	alert("successfully Log In!");
   		  	var query = new Parse.Query(Parse.User);
   		  	query.equalTo("username", $("#prt_id").val());  // find all the women
   		  	query.find({
