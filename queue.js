@@ -1,5 +1,6 @@
 function Q(){
 	this.push =  function (x){
+
 		if (this.body.length<6){
 			this.body.push(x);
 		}

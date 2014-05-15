@@ -43,6 +43,10 @@ $(document).ready(function() {
     console.log( "ready!" );
 
     //Create the dropdownlist
+
+
+
+
     var my_children = currentUser.get('children_array');
     console.log(my_children);
     $.each(my_children,function(index,value){
@@ -309,11 +313,12 @@ function Alice(){
 
   /* addChild() adds a child to the parent's data structure 
       Also outputs the child's ID number */
+  var child;
   function addChild() {
     var to_add = $('#chld_name').val();
 
     var Child = Parse.Object.extend("Child");
-    var child = new Child();
+    child = new Child();
     child.set("Name", to_add);
     child.set("parentId",currentUser.id);
 
@@ -323,6 +328,20 @@ function Alice(){
         $('#security_code').text(child.id);
         update_prt(child.id,to_add);
         console.log(child);
+
+
+        console.log(currentUser.get('children_array'));
+        var to_update = currentUser.get("children_array");
+        var to_update_item = {'id':child.id,'name':to_add};
+        to_update.push(to_update_item);
+        // to_update =[{'id':'lHMDIjw566','name':'1234_6'},
+        //             {'id':'hZ1SkoAjA4','name':'1234_4'},
+        //             {'id':'3xJYNDwkJB','name':'1234_2'},
+        //             {'id':'CSW2QQss37','name':'1234_1'}]
+        console.log("children_array now: " + to_update);
+        currentUser.set("children_array",to_update);
+        currentUser.save();
+
       },
       error: function(child, error) {
         // Execute any logic that should take place if the save fails.
