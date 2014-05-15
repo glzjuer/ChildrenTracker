@@ -50,10 +50,11 @@ function getLocation(){
 function updatePosition(position){
 
   //Display coordinates on childinterface screen
-  var x = document.getElementById("showLocation");
   var showposition = "Latitude: "+ position.coords.latitude + 
-  "<br>Longitude: " + Math.random(); 
-  x.innerHTML =showposition;
+  "<br>"+" Longitude: " + position.coords.longitude +
+  "<br>" +  Math.random(); 
+  $('#showLocation').html(showposition);
+
 
   //Update position in Parse database
   Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
