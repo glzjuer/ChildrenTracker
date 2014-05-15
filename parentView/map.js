@@ -316,11 +316,12 @@ function Alice(){
   var child;
   function addChild() {
     var to_add = $('#chld_name').val();
-
+    var q = new Q();
     var Child = Parse.Object.extend("Child");
     child = new Child();
     child.set("Name", to_add);
     child.set("parentId",currentUser.id);
+    child.set("history", []);
 
     child.save(null, {
       success: function(child) {
