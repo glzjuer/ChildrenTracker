@@ -395,6 +395,10 @@ function Show_history(index){
 
   }
 
+  function show_Setting(){
+    console.log("I clicked!");
+    $('#myModal').modal('show');
+  };
 
 
 
