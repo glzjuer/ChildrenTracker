@@ -42,14 +42,11 @@ $(document).ready(function() {
        theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]);
     }
 
-    //Create the dropdownlist
-
-
-
-
+    //Create the dropdownlist and settings list 
     var my_children = currentUser.get('children_array');
     $.each(my_children,function(index,value){
       $('#drop').prepend('<li onclick = "currentChild = this.id;click_child(currentChild)" id = '+ value.id + '><a>'+value.name+'</a></li>');
+      $('#childSettings').prepend('<li class="settingItem">' + value.name + ': ' + value.id + '</li>')
     })
     //current click
     $('#current').on('click',function(){
@@ -58,6 +55,7 @@ $(document).ready(function() {
       }
       else alert("select a child");
     })
+
 });
 
 

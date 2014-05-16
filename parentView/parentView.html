@@ -85,14 +85,15 @@
        					 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         					<h3 class="modal-title" id="myModalLabel">Settings</h3>
      				</div>
-      			<div class="modal-body">
-      				<p>Settings will go here</p>
+      			<div class="modal-body" id="settingsBody">
+      				<p margin="auto">Click on any child to expand their settings: </p>
+      				<ul id="childSettings"></ul>
 			  	</div>
   		
 
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default to_hide" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary to_hide" onclick="addChild()">Add Child</button>
+		        <button type="button" class="btn btn-primary">Save Settings</button>
 		        <button type="button" class="btn btn-lg btn-default to_show" data-dismiss="modal" onclick="location='parentView.html'" style="display:none">OK</button>
 		      </div>
 		    </div>
