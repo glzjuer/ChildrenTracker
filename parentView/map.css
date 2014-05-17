@@ -8,3 +8,22 @@ a:link, a:visited{
 	margin: 10px;
 }
 
+#settingsBody {
+	text-align: center;
+	padding-left:0px;
+	padding-right:0px;
+}
+
+#childSettings {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+.settingItem {
+	width: 100%;
+	list-style: none; 
+	padding: 10px 20px 10px 20px;
+	border-top: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+}

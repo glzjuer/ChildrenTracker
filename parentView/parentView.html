@@ -48,20 +48,16 @@
 
 		<div class="container">
 			<div class="btn-group btn-block">
-			  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown">
-			    Choose Child<span class="caret"></span>
+			  <button type="button" class="btn btn-info dropdown-toggle btn-block" id="childDropdown" data-toggle="dropdown">
+			    Choose Child <span class="caret"></span>
 			  </button>
 			  <ul class="dropdown-menu btn-block" role="menu" id="drop">
-			    <!-- <li><a href="#Sam" onclick="Sam()" >Sam</a></li>
-			    <li><a href="#Alice" onclick="Alice()">Alice</a></li>
-			    <li>123<li>
-			    <li class="divider"></li>
-			    <li><a href="#">Husband</a></li> -->
+			    <li><a data-toggle="modal" onclick="show_addChild()">Add your child</a></li>
 			  </ul>
 			</div>
 			<div class="btn-group btn-block">
 			  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown">
-			    Choose Time<span class="caret"></span>
+			    Choose Time <span class="caret"></span>
 			  </button>
 			  <ul class="dropdown-menu pull-right btn-block" role="menu">
 			  	<li><a href="#" id="curent">Current</a></li>
@@ -82,20 +78,42 @@
 		</p>
 
 <!-- SETTINGS MODAL -->
-
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
     			<div class="modal-content">
       				<div class="modal-header">
        					 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        					<h3 class="modal-title" id="myModalLabel">Add your child</h3>
+        					<h3 class="modal-title" id="myModalLabel">Settings</h3>
      				</div>
-      			<div class="modal-body">
+      			<div class="modal-body" id="settingsBody">
+      				<p margin="auto">Click on any child to expand their settings: </p>
+      				<ul id="childSettings"></ul>
+			  	</div>
+  		
 
-      				<form class="form-horizontal" role="form" >
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default to_hide" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary">Save Settings</button>
+		        <button type="button" class="btn btn-lg btn-default to_show" data-dismiss="modal" onclick="location='parentView.html'" style="display:none">OK</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+<!-- ADD CHILD MODAL -->
+
+		<div class="modal fade" id="addNewChild" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+	  				<div class="modal-header">
+	   					 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	    					<h3 class="modal-title" id="myModalLabel">Add Your Child</h3>
+	 				</div>
+	  			<div class="modal-body">
+
+	  				<form class="form-horizontal" role="form" >
 
 			      		<div class="form-group to_hide">
-			                   
 			                <label for="chld_name" class="col-xs-4 control-label">Name</label>
 			                <div class="col-xs-12">
 			                    <input type="name" class="form-control" id="chld_name" placeholder="Your child's name">
@@ -109,7 +127,7 @@
 				      	</div>
 			      	</form>
 			  	</div>
-  		
+			
 
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default to_hide" data-dismiss="modal">Close</button>

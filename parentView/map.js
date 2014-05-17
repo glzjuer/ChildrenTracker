@@ -41,27 +41,21 @@ $(document).ready(function() {
     for(var i = 0; i < strs.length; i ++) {
        theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]);
     }
-    console.log( "ready!" );
 
-    //Create the dropdownlist
-
-
-
-
+    //Create the dropdownlist and settings list 
     var my_children = currentUser.get('children_array');
-    console.log(my_children);
     $.each(my_children,function(index,value){
-      console.log(value);
-      $('#drop').append('<li onclick = "currentChild = this.id;click_child()" id = '+value.id+'><a>'+value.name+'</a></li>');
+      $('#drop').prepend('<li onclick = "currentChild = this.id;click_child(currentChild)" id = '+ value.id + '><a>'+value.name+'</a></li>');
+      $('#childSettings').prepend('<li class="settingItem">' + value.name + ': ' + value.id + '</li>')
     })
     //current click
     $('#current').on('click',function(){
       if(currentChild !== undefined){
-        console.log("currentChild is "+ currentChild);
         ShowChild(currentChild);
       }
       else alert("select a child");
     })
+
 });
 
 
@@ -179,11 +173,23 @@ function handleNoGeolocation(errorFlag) {
 }
 
 
- function click_child(){
-  console.log(currentChild);
-  click_now = setInterval(ShowChild,3000);
+ function click_child(child){
+    click_now = setInterval(ShowChild,3000);
+    console.log("click_child() has been called.");
+    var Child = Parse.Object.extend("Child");
+    var query = new Parse.Query(Child);
+    query.equalTo("objectId", child);
+    query.first({
+      success: function(object) {
+        var name = object._serverData.Name;
+        $("#childDropdown").html(name + ' <span class="caret"></span>');
+      },
+      error: function(error) {
+        alert("Error: " + error.code + " " + error.message);
+      }
+    });
 
-
+    
  }
 
 var window_flag = false; 
@@ -195,7 +201,6 @@ function ShowChild(){
     child_infowindow.close();
   }
   window_flag = true;
-  console.log("child_id: "+ currentChild);
 
   var pos;
   clearMarkers();
@@ -207,11 +212,9 @@ function ShowChild(){
     success: function(results) {
       // console.log("Successfully retrieved " + results.length + " scores.");
       // Do something with the returned Parse.Object values
-      console.log("child found: "+results[0]);
       // var new_children = new Array();
       child_location = results[0].get('CurrentLocation');
       var child_name = results[0].get('Name');
-      console.log(child_location);
 
       var pos = new google.maps.LatLng(child_location.latitude, child_location.longitude);
 
@@ -244,7 +247,6 @@ function Show_history(index){
     child_infowindow.close();
   }
   window_flag = true;
-  console.log("child_id: "+ currentChild);
 
   var pos;
   clearMarkers();
@@ -256,12 +258,10 @@ function Show_history(index){
     success: function(results) {
       // console.log("Successfully retrieved " + results.length + " scores.");
       // Do something with the returned Parse.Object values
-      console.log("child found: "+results[0]);
+     
       // var new_children = new Array();
       child_location = results[0].get('history')[index];
       var child_name = results[0].get('Name');
-      console.log(results[0].get('history'));
-      console.log(child_location);
 
       var pos = new google.maps.LatLng(child_location.Latitude, child_location.Longitude);
 
@@ -294,7 +294,6 @@ function Show_history(index){
     // var currentUser = Parse.User.current();
     Parse.User.logOut();
     location.href='../index.html';
-    console.log(currentUser + "logout!");
   }
 
   /* addChild() adds a child to the parent's data structure 
@@ -314,10 +313,7 @@ function Show_history(index){
         // Execute any logic that should take place after the object is saved.
         $('#security_code').text(child.id);
         update_prt(child.id,to_add);
-        console.log(child);
-
-
-        console.log(currentUser.get('children_array'));
+        
         var to_update = currentUser.get("children_array");
         var to_update_item = {'id':child.id,'name':to_add};
         to_update.push(to_update_item);
@@ -325,10 +321,8 @@ function Show_history(index){
         //             {'id':'hZ1SkoAjA4','name':'1234_4'},
         //             {'id':'3xJYNDwkJB','name':'1234_2'},
         //             {'id':'CSW2QQss37','name':'1234_1'}]
-        console.log("children_array now: " + to_update);
         currentUser.set("children_array",to_update);
         currentUser.save();
-
       },
       error: function(child, error) {
         // Execute any logic that should take place if the save fails.
@@ -350,9 +344,7 @@ function Show_history(index){
       success: function(results) {
         // console.log("Successfully retrieved " + results.length + " scores.");
         // Do something with the returned Parse.Object values
-        console.log(results[0]);
-        // var new_children = new Array();
-        console.log(results[0].get('children_array'));
+
         var to_update = results[0].get("children_array");
         var to_update_item = {'id':child_id,'name':child_name};
         to_update.push(to_update_item);
@@ -360,7 +352,6 @@ function Show_history(index){
         //             {'id':'hZ1SkoAjA4','name':'1234_4'},
         //             {'id':'3xJYNDwkJB','name':'1234_2'},
         //             {'id':'CSW2QQss37','name':'1234_1'}]
-        console.log(to_update);
         results[0].set("children_array",to_update);
         results[0].save();
       },
@@ -380,12 +371,10 @@ function Show_history(index){
       success: function(results) {
         // console.log("Successfully retrieved " + results.length + " scores.");
         // Do something with the returned Parse.Object values
-        console.log("child found: "+results[0]);
         // var new_children = new Array();
         var child_location = new Parse.GeoPoint({latitude: 42.0, longitude: -87.67});
         results[0].set('CurrentLocation',child_location);
 
-        console.log(results[0].get('CurrentLocation'));
         results[0].save();
       },
       error: function(error) {
@@ -396,8 +385,12 @@ function Show_history(index){
   }
 
   function show_Setting(){
-    console.log("I clicked!");
-    $('#myModal').modal('show');
+
+    $('#settings').modal('show');
+  };
+
+  function show_addChild(){
+    $('#addNewChild').modal('show');
   };
 
 
