@@ -30,6 +30,8 @@ google.maps.event.addDomListener(window, 'load', initialize_map);
 
 $(document).ready(function() {
     
+    var toShow;
+
     Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
     currentUser=Parse.User.current();
 
@@ -45,8 +47,11 @@ $(document).ready(function() {
     //Create the dropdownlist and settings list 
     var my_children = currentUser.get('children_array');
     $.each(my_children,function(index,value){
+      toShow = '<div display="block" class="settingDropDown" id = "' + value.id + 'toshow" aria-hidden="true">' +
+        '<p>This This dropdown menu really works!</p></div>'
       $('#drop').prepend('<li onclick = "currentChild = this.id;click_child(currentChild)" id = '+ value.id + '><a>'+value.name+'</a></li>');
-      $('#childSettings').prepend('<li class="settingItem">' + value.name + ': ' + value.id + '</li>')
+      $('#childSettings').prepend('<a href="#" onclick="openSettings()" class="settingLink"><li class="settingItem" id="0' + value.id + '">' + value.name + ': ' + value.id + toShow +
+          '</li></a>')
     })
     //current click
     $('#current').on('click',function(){
@@ -391,6 +396,11 @@ function Show_history(index){
   function show_addChild(){
     $('#addNewChild').modal('show');
   };
+
+  function openSettings() {
+    var show = '#' + event.target.id.slice(1) + 'toshow';
+    $(show).slideDown();
+  }
 
 
 
