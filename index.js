@@ -99,7 +99,6 @@
 
   	//funtion to check that child ID exists in database
   	function validateID(){
-  		//Clear interfering code settings
   		event.preventDefault();
 
 
