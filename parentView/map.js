@@ -6,6 +6,7 @@ var map;
 // var overlay;
 var floor = 1;
 var currentChild;
+var open = false;
 
 
 
@@ -48,7 +49,47 @@ $(document).ready(function() {
     var my_children = currentUser.get('children_array');
     $.each(my_children,function(index,value){
       toShow = '<div display="block" class="settingDropDown" id = "' + value.id + 'toshow" aria-hidden="true">' +
-        '<p>This This dropdown menu really works!</p></div>'
+        '<form>' +
+          '<div class="container-fluid">' +
+            '<div class="row">' +
+              '<div class="col-xs-7">' +
+                '<h5>Alert distance: </h5>' +
+                '<div class="input-group">' +
+                  '<input type="text" class="form-control input-sm">' +
+                  '<div class="input-group-btn">' +
+                    '<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">' +
+                      'Yards ' +
+                      '<span class="caret"></span>' +
+                    '</button>' +
+                    '<ul class="dropdown-menu pull-right">' +
+                      '<li>Feet</li>' +
+                      '<li>Yards</li>' +
+                      '<li>Miles</li>' +
+                    '</ul>' +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+              '<div class="col-xs-5">' +
+                '<h5>On/Off: </h5>' +
+                '<div class="btn-group" data-toggle="buttons">' +
+                  '<label class="btn btn-default btn-sm">' +
+                    '<input type="radio" name="OnOff" id="On">On</input>' +
+                  '</label>' +
+                  '<label class="btn btn-default btn-sm">' +
+                    '<input type="radio" name="OnOff" id="Off">Off</input>' +
+                  '</label>' +
+                '</div>' +
+              '</div>' +
+              '<div class="col-xs-12">' +
+                '<h5>Enter address: </h5>' +
+                '<input type="text" class="form-control input-sm">' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</form>' +
+      '</div>';
+
+
       $('#drop').prepend('<li onclick = "currentChild = this.id;click_child(currentChild)" id = '+ value.id + '><a>'+value.name+'</a></li>');
       $('#childSettings').prepend('<a href="#" onclick="openSettings()" class="settingLink"><li class="settingItem" id="0' + value.id + '">' + value.name + ': ' + value.id + toShow +
           '</li></a>')
@@ -398,44 +439,11 @@ function Show_history(index){
   };
 
   function openSettings() {
+    open = !open;
     var show = '#' + event.target.id.slice(1) + 'toshow';
-    $(show).slideDown();
+    if (open) {
+      $(show).slideDown();
+    } else {
+      $(show).slideUp();
+    }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
