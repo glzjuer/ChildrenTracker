@@ -8,20 +8,15 @@ a.settingLink {
 	width: 100%
 }
 
-/*a.settingLink:hover {
-	color: black;
-	background-color: #BCCACA;
-}*/
-
 #childrenMap {
     width: 275px;
     height: 355px;
-    float:center;
+    /*float:center;*/
 	margin: 10px;
 }
 
 #settingsBody {
-	text-align: center;
+	/*text-align: center;*/
 	padding-left:0px;
 	padding-right:0px;
 }
@@ -34,10 +29,6 @@ a.settingLink {
 
 .settingDropDown {
 	display: none;
-}
-
-.settingDropDown:hover {
-	background-color: white;
 }
 
 .settingItem {
