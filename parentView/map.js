@@ -448,8 +448,8 @@ function Show_history(index){
     }
   }
 
-  function call_cloud_to_alert(){
-    Parse.Cloud.run('alert_email', {}, {
+  function cloud_call_to_alert(child_to_alert){
+    Parse.Cloud.run('alert_email', {"child":child_to_alert}, {
       success: function(status) {
         console.log(status);
         // ratings should be 4.5
