@@ -30,7 +30,7 @@ google.maps.event.addDomListener(window, 'load', initialize_map);
 
 
 $(document).ready(function() {
-    
+    // var myModule = require('cloud/myModule.js');
     var toShow;
 
     Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
@@ -446,4 +446,16 @@ function Show_history(index){
     } else {
       $(show).slideUp();
     }
+  }
+
+  function call_cloud_to_alert(){
+    Parse.Cloud.run('alert_email', {}, {
+      success: function(status) {
+        console.log(status);
+        // ratings should be 4.5
+      },
+      error: function(error) {
+        console.log("failure!"+error);
+      }
+    });
   }
