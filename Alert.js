@@ -3,12 +3,11 @@ Remaining Sub Tasks:
     Most Important
     1) Write code to test and check distance of child from center point.
     2) Integrate with settings page
-    3) 
+    3) Include email alert function
 
     1)Clicking enter key after entering street address does not show marker on map. It refreshes the page. We need to fix this. 
     2) Formatting all the elements on this page
-    3) Write code to test and check distance of child from radius
-    4) Include days of week settings for alert
+    3) Include days of week settings for alert
     
 */
 
