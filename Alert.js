@@ -18,7 +18,7 @@ var addressMarker;
 var alertSettings;
 var Circle;
 
-var childMarker; //REMOVE WHEN DONE! FOR TESTING ONLY
+//var childMarker; //REMOVE WHEN DONE! FOR TESTING ONLY
 
 
 function initialize(){
@@ -49,7 +49,7 @@ function mapAddress(){
             addressMarker.setDraggable(true);
 
             //CHILD MARKER CREATED FOR TESTING PURPOSES ONLY. REMOVE WHEN DONE. 
-            var childLat = Number(addressMarker.position.lat())+0.001;
+            /*var childLat = Number(addressMarker.position.lat())+0.001;
             var childLong = Number(addressMarker.getPosition().lng())+0.001;
             var childPos = new google.maps.LatLng(childLat, childLong);
             var childMarkerOptions={
@@ -58,7 +58,7 @@ function mapAddress(){
                     map: map,
                     position: childPos
             };
-            childMarker.setOptions(childMarkerOptions);
+            childMarker.setOptions(childMarkerOptions);*/
         /*---------------------------------------------------------*/
 
             //draw default circle on map
@@ -144,7 +144,7 @@ function getAlertSettings(){
 } 
 
 function executeAlert(){
-    //carries out background tasks of alert: check time range, check distance, if 
+    //carries out tasks of alert: check time range, check distance, if 
     //the current time falls within the alert time settings abd the child's location
     //is outside the radius, send an alert to the parent.
 
@@ -192,8 +192,8 @@ function checkTime(startTime, endTime){
 
 function checkDistance(radius){
     //Craig - integration with Settings page
-
-    distFromCenter = google.maps.geometry.spherical.computeDistanceBetween(addressMarker.getPosition(), childMarker.getPosition());
+    //SETTINGS INTEGRATION
+    //distFromCenter = google.maps.geometry.spherical.computeDistanceBetween(addressMarker.getPosition(), [Child Location]);
     console.log("distance from center: "+distFromCenter);
     console.log("radius setting: "+radius);
      if (distFromCenter>radius){return true;}
