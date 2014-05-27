@@ -1,56 +1,4 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <title>Alert Function Code</title>
-
-    <style>
-      .container-fluid{ padding: 10px;}
-      #map-canvas { width: 275px; height: 275px; float:center;}
-      #alert-location{margin-bottom: 10px;}
-      #SetAlertTiming {padding: 10px;}
-    </style>
-
-    <!-- Bootstrap, Parse, Google Maps, JQuery, JS References-->
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <script src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhE4ZUy9TZaujrvjBJE06hBvLFAVQe7cI&libraries=geometry,drawing&sensor=true"></script>
-    <script src="Alert.js"></script>
-
-  </head>
-
-  <body onload="initialize()">
-
-    <div class="container-fluid">
-      <!--Alert Time Settings -->
-      <div id="SetAlertTiming">
-        
-        <div class="row">
-          <div class="col-xs-6">
-            <label>Start Time: </label>
-          </div>
-          <div class="col-xs-6">
-            <label>End Time: </label>
-          </div>
-        </div>
-
-      <div class="row">
-        <div class="col-xs-6">
-
-            <select id="startHour"> 
-              <option value="1">01</option>
-              <option value="2">02</option>
-              <option value="3">03</option>
-              <option value="4">04</option>
-              <option value="5">05</option>
-              <option value="6">06</option>
-              <option value="7">07</option>
-              <option selected="selected" value="8">08</option>
-              <option value="9">09</option>
-              <option value="10">10</option>
+<div class="container-fluid"><div id="SetAlertTiming"><div class="row"><div class="col-xs-6"><label>Start Time: </label></div><div class="col-xs-6"><label>End Time: </label></div></div><div class="row"><div class="col-xs-6"><select id="startHour"><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option selected="selected" value="8">08</option><option value="9">09</option><option value="10">10</option>
               <option value="11">11</option>
               <option value="0">12</option>
             </select>
@@ -210,18 +158,14 @@
               <option selected="selected" value="PM">PM</option>
             </select>  
         </div>
-
       </div>
     </div>
-
-
-      <!-- Radius Boundary of Alert-->
       <div id="setAlertRadius">
         <div class="row">
           <div class="col-xs-12">
             <label>Radius: </label>
             <select id="radius" onchange="drawCircle(this.value)">
-              <option value="45.72"> 50 yards </option> <!-- value is meter equivalent of yards (i.e. 50yds = 45.72m)-->
+              <option value="45.72"> 50 yards </option>
               <option value ="91.44">100 yards</option>
               <option value ="182.88">200 yards</option>
               <option value ="457.2">500 yards</option>
@@ -229,9 +173,6 @@
           </div>
         </div>
       </div>
-
-
-      <!-- Alert Location Settings-->
       <form id="alert-location" class="form-inline" role="form">
         <h5><strong>Enter a street address: </strong></h5>
         <div class="form-group">
@@ -240,21 +181,8 @@
         </div>
           <button type="button" id="MapIt"class="btn btn-default" onclick="mapAddress()">Show on Map</button>
       </form>
-
-      <!--Google Maps -->
       <div id="map-canvas"></div>
-
-      
-
       </br>    
       <button type="submit" id="confirmAlertSettings"class="btn btn-primary btn-block" onclick="getAlertSettings()">
         Confirm Alert Settings
       </button>
-
-
-
-
-    </div>
-
-</body>
-</html>

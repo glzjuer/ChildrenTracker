@@ -48,19 +48,6 @@ function mapAddress(){
             addressMarker.setPosition(results[0].geometry.location);
             addressMarker.setDraggable(true);
 
-            //CHILD MARKER CREATED FOR TESTING PURPOSES ONLY. REMOVE WHEN DONE. 
-            /*var childLat = Number(addressMarker.position.lat())+0.001;
-            var childLong = Number(addressMarker.getPosition().lng())+0.001;
-            var childPos = new google.maps.LatLng(childLat, childLong);
-            var childMarkerOptions={
-                    title: "I'm a child!",
-                    draggable: true,
-                    map: map,
-                    position: childPos
-            };
-            childMarker.setOptions(childMarkerOptions);*/
-        /*---------------------------------------------------------*/
-
             //draw default circle on map
             var radius = document.getElementById('radius');
             var r = Number(radius.options[radius.selectedIndex].value);
@@ -203,5 +190,5 @@ function checkDistance(radius){
 function sendAlert(){
     alert("alert triggered");
     //Xiaoyang's function
-}
+} 
 
