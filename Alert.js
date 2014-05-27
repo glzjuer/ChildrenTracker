@@ -1,11 +1,11 @@
 /*
 Remaining Sub Tasks: 
     Most Important
-    1) Write code to test and check distance of child from center point.
-    2) Integrate with settings page
-    3) Include email alert function
-
-    1)Clicking enter key after entering street address does not show marker on map. It refreshes the page. We need to fix this. 
+    1) Integrate with settings page
+    2) Include email alert function
+    3) Run check alert code whenever child location is queried.
+    Less Important
+    1) Clicking enter key after entering street address does not show marker on map. It refreshes the page. We need to fix this. 
     2) Formatting all the elements on this page
     3) Include days of week settings for alert
     
@@ -16,13 +16,18 @@ var geocoder;
 var map;
 var addressMarker;
 var alertSettings;
+var Circle;
+
+var childMarker; //REMOVE WHEN DONE! FOR TESTING ONLY
 
 
 function initialize(){
     //Executed on page load. Displays default map settings.
 
     geocoder = new google.maps.Geocoder();
-    addressMarker = new google.maps.Marker();    
+    addressMarker = new google.maps.Marker();
+    childMarker= new google.maps.Marker();////REMOVE WHEN DONE! FOR TESTING ONLY
+    Circle = new google.maps.Circle();    
     var mapOptions = {
         center: new google.maps.LatLng(39.083333,-98.583333),
         zoom: 2
@@ -43,6 +48,19 @@ function mapAddress(){
             addressMarker.setPosition(results[0].geometry.location);
             addressMarker.setDraggable(true);
 
+            //CHILD MARKER CREATED FOR TESTING PURPOSES ONLY. REMOVE WHEN DONE. 
+            var childLat = Number(addressMarker.position.lat())+0.001;
+            var childLong = Number(addressMarker.getPosition().lng())+0.001;
+            var childPos = new google.maps.LatLng(childLat, childLong);
+            var childMarkerOptions={
+                    title: "I'm a child!",
+                    draggable: true,
+                    map: map,
+                    position: childPos
+            };
+            childMarker.setOptions(childMarkerOptions);
+        /*---------------------------------------------------------*/
+
             //draw default circle on map
             var radius = document.getElementById('radius');
             var r = Number(radius.options[radius.selectedIndex].value);
@@ -56,7 +74,7 @@ function mapAddress(){
                 center: results[0].geometry.location,
                 radius: r
             };
-            Circle = new google.maps.Circle(circleOptions);
+            Circle.setOptions(circleOptions);
             Circle.bindTo('center', addressMarker, 'position');
         } 
         else {
@@ -105,19 +123,24 @@ function getAlertSettings(){
     var endTod= tod2.options[tod2.selectedIndex].value;
     var r = Number(radius.options[radius.selectedIndex].value); 
 
-    //adjust time to 24 hour scale
+        //adjust time to 24 hour scale
     if(startTod =="PM") startHr = startHr+12;
     if(endTod=="PM") endHr = endHr+12;
+    var startTime={
+        hour: startHr,
+        minute: startMin
+    };
+    var endTime={
+        hour: endHr,
+        minute: endMin
+    };
 
     alertSettings={
-        startHour: startHr,
-        startMinute: startMin,
-        endHour: endHr,
-        endMinute: endMin,
+        startTime: startTime,
+        endTime: endTime,
         position: addressMarker.getPosition(),
         radius: r 
     };
-    executeAlert();
 } 
 
 function executeAlert(){
@@ -125,16 +148,23 @@ function executeAlert(){
     //the current time falls within the alert time settings abd the child's location
     //is outside the radius, send an alert to the parent.
 
-    var timeInBounds = checkTime(alertSettings.startHour, alertSettings.startMinute, alertSettings.endHour, alertSettings.endMinute);
-    alert("current time is in bounds: "+timeInBounds);
+    var timeInBounds = checkTime(alertSettings.startTime, alertSettings.endTime);
 
-    //if(timeRange){childOutOfBounds = checkDistance(r);}
-    //if(childOutofBounds){sendAlert();} 
+    if(timeInBounds){ 
+        var childOutOfBounds = checkDistance(alertSettings.radius);
+    }
+    if(childOutOfBounds){sendAlert();}
 }
 
-function checkTime(startHr, startMin, endHr, endMin){
+function checkTime(startTime, endTime){
     var startTimeCheck;
     var endTimeCheck;
+
+    var startHr = startTime.hour;
+    var startMin = startTime.minute;
+    var endHr = endTime.hour;
+    var endMin = endTime.minute;
+    
     var now = new Date();
     min = now.getMinutes();
     hour = now.getHours();
@@ -162,10 +192,16 @@ function checkTime(startHr, startMin, endHr, endMin){
 
 function checkDistance(radius){
     //Craig - integration with Settings page
-    //var center = alertSettings.position;
+
+    distFromCenter = google.maps.geometry.spherical.computeDistanceBetween(addressMarker.getPosition(), childMarker.getPosition());
+    console.log("distance from center: "+distFromCenter);
+    console.log("radius setting: "+radius);
+     if (distFromCenter>radius){return true;}
+     else {return false;}    
 }
 
 function sendAlert(){
-    console.log("alert triggered");
+    alert("alert triggered");
     //Xiaoyang's function
 }
+
