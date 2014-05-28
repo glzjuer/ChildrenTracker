@@ -8,7 +8,7 @@ var currentChild;
 var open = false;
 
 // From alert.js
-var settingsMap;
+var settingsMap = [];
 var geocoder;
 var addressMarker;
 var alertSettings;
@@ -248,7 +248,7 @@ $(document).ready(function() {
             '</div>' +
               '<button type="button" id="MapIt"class="btn btn-default" onclick="mapAddress()">Show on Map</button>' +
           '</form>' +
-          '<div id="map-canvas' + value.id + '"></div>' +
+          '<div id="map-canvas' + value.id + '" style="display: block; width:100%; height: 250px"></div>' +
           '</br>' +
           '<button type="submit" id="confirmAlertSettings"class="btn btn-primary btn-block" onclick="getAlertSettings()">' +
             'Confirm Alert Settings' +
@@ -259,7 +259,7 @@ $(document).ready(function() {
       $('#drop').prepend('<li onclick = "currentChild = this.id;click_child(currentChild)" id = '+ value.id + '><a>'+value.name+'</a></li>');
       $('#childSettings').prepend('<a href="#" onclick="openSettings()" class="settingLink"><li class="settingItem" id="0' + value.id + '">' + value.name + ': ' + value.id + toShow +
           '</li></a>')
-
+      console.log(toShow);
       //Executed on page load. Displays default map settings.
 
       geocoder = new google.maps.Geocoder();
@@ -269,16 +269,11 @@ $(document).ready(function() {
           center: new google.maps.LatLng(39.083333,-98.583333),
           zoom: 2
       };
-      settingsMap = new google.maps.Map(document.getElementById("map-canvas" + value.id), mapOptions);
-      if (settingsMap) {
-        console.log();
-      } else {
-        alert("Failure!");
-      }
+      var newId = 'map-canvas' + value.id.toString();
+      console.log(newId);
+      settingsMap.push(new google.maps.Map(document.getElementById(newId), mapOptions));
 
     });
-
-    //Executed on page load. Displays default map settings.
 
     //current click
     $('#current').on('click',function(){
@@ -289,8 +284,6 @@ $(document).ready(function() {
     })
 
 });
-
-
 
 function initialize_map() {
   
@@ -626,9 +619,15 @@ function Show_history(index){
 
   function openSettings() {
     open = !open;
-    var show = '#' + event.target.id.slice(1) + 'toshow';
+    var childId = event.target.id.slice(1);
+    //var showMap = 0;
+    var show = '#' + childId + 'toshow';
     if (open) {
       $(show).slideDown();
+      for (var i=0; i < settingsMap.length; i++) {
+        google.maps.event.trigger(settingsMap[i], 'resize');
+        settingsMap[i].setZoom( settingsMap[i].getZoom() );
+      }
     } else {
       $(show).slideUp();
     }
