@@ -9,10 +9,10 @@ var open = false;
 
 // From alert.js
 var settingsMap = [];
-var geocoder;
-var addressMarker;
-var alertSettings;
-var Circle;
+var geocoder = [];
+var addressMarker = [];
+var alertSettings = [];
+var Circle = [];
 
 var locationArray = [];
 
@@ -32,6 +32,7 @@ google.maps.event.addDomListener(window, 'load', initialize_map);
 $(document).ready(function() {
     // var myModule = require('cloud/myModule.js');
     var toShow;
+    var count = 0;
 
     Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
     currentUser=Parse.User.current();
@@ -62,7 +63,7 @@ $(document).ready(function() {
             '</div>' +
           '<div class="row">' +
             '<div class="col-xs-6">' + 
-                '<select id="startHour">' +  
+                '<select id="' + count + 'startHour">' +  
                   '<option value="1">01</option>' + 
                   '<option value="2">02</option>' + 
                   '<option value="3">03</option>' + 
@@ -76,7 +77,7 @@ $(document).ready(function() {
                   '<option value="11">11</option>' + 
                   '<option value="0">12</option>' + 
                 '</select>' + 
-                '<select id="startMinute">' + 
+                '<select id="' + count + 'startMinute">' + 
                   '<option selected="selected" value ="0">00</option>' + 
                   '<option value ="1">01</option>' + 
                   '<option value ="2">02</option>' + 
@@ -138,13 +139,13 @@ $(document).ready(function() {
                   '<option value ="58">58</option>' +
                   '<option value ="59">59</option>' +
                 '</select>' +  
-                '<select id="startTimeOfDay">' +
+                '<select id="' + count + 'startTimeOfDay">' +
                   '<option selected="selected" value="AM">AM</option>' +
                   '<option value="PM">PM</option>' +
                 '</select>' +  
               '</div>' +
               '<div class="col-xs-6">' +
-                '<select id="endHour">' + 
+                '<select id="' + count + 'endHour">' + 
                   '<option value="1">01</option>' +
                   '<option value="2">02</option>' +
                   '<option selected="selected" value="3">03</option>' +
@@ -158,7 +159,7 @@ $(document).ready(function() {
                   '<option value="11">11</option>' +
                   '<option value="0">12</option>' +
                 '</select>' +
-                '<select id="endMinute">' +
+                '<select id="' + count + 'endMinute">' +
                   '<option selected="selected" value ="0">00</option>' +
                   '<option value ="1">01</option>' +
                   '<option value ="2">02</option>' +
@@ -220,7 +221,7 @@ $(document).ready(function() {
                   '<option value ="58">58</option>' +
                   '<option value ="59">59</option>' +
                 '</select>' +  
-                '<select id="endTimeOfDay">' +
+                '<select id="' + count + 'endTimeOfDay">' +
                   '<option value="AM">AM</option>' +
                   '<option selected="selected" value="PM">PM</option>' +
                 '</select>' +  
@@ -231,7 +232,7 @@ $(document).ready(function() {
             '<div class="row">' +
               '<div class="col-xs-12">' +
                 '<label>Radius: </label>' +
-                '<select id="radius" onchange="drawCircle(this.value)">' +
+                '<select id="' + count + 'radius" onchange="drawCircle(this.value, ' + count + ')">' +
                   '<option value="45.72"> 50 yards </option>' +
                   '<option value ="91.44">100 yards</option>' +
                   '<option value ="182.88">200 yards</option>' +
@@ -240,17 +241,17 @@ $(document).ready(function() {
               '</div>' +
             '</div>' +
           '</div>' +
-          '<form id="alert-location" class="form-inline" role="form">' +
+          '<form id="' + count + 'alert-location" class="form-inline" role="form">' +
             '<h5><strong>Enter a street address: </strong></h5>' +
             '<div class="form-group">' +
-              '<label class="sr-only" for="streetAddress">Street Address</label>' +
-              '<input type="text" class="form-control" id="streetAddress" placeholder="Enter Street Address"></input>' +
+              '<label class="sr-only" for="' + count + 'streetAddress">Street Address</label>' +
+              '<input type="text" class="form-control" id="' + count + 'streetAddress" placeholder="Enter Street Address"></input>' +
             '</div>' +
-              '<button type="button" id="MapIt"class="btn btn-default" onclick="mapAddress()">Show on Map</button>' +
+              '<button type="button" id="MapIt" class="btn btn-default" onclick="mapAddress(' + count + ')">Show on Map</button>' +
           '</form>' +
           '<div id="map-canvas' + value.id + '" style="display: block; width:100%; height: 250px"></div>' +
           '</br>' +
-          '<button type="submit" id="confirmAlertSettings"class="btn btn-primary btn-block" onclick="getAlertSettings()">' +
+          '<button type="submit" id="confirmAlertSettings"class="btn btn-primary btn-block" onclick="getAlertSettings(' + count + ')">' +
             'Confirm Alert Settings' +
           '</button>' +
         '</div>'; 
@@ -258,23 +259,23 @@ $(document).ready(function() {
 
       $('#drop').prepend('<li onclick = "currentChild = this.id;click_child(currentChild)" id = '+ value.id + '><a>'+value.name+'</a></li>');
       $('#childSettings').prepend('<a href="#" onclick="openSettings()" class="settingLink"><li class="settingItem" id="0' + value.id + '">' + value.name + ': ' + value.id + toShow +
-          '</li></a>')
-      console.log(toShow);
+          '</li></a>');
       //Executed on page load. Displays default map settings.
 
-      geocoder = new google.maps.Geocoder();
-      addressMarker = new google.maps.Marker();  
-      Circle = new google.maps.Circle();  
+      geocoder.push(new google.maps.Geocoder());
+      addressMarker.push(new google.maps.Marker());  
+      Circle.push(new google.maps.Circle());  
       var mapOptions = {
           center: new google.maps.LatLng(39.083333,-98.583333),
           zoom: 2
       };
       var newId = 'map-canvas' + value.id.toString();
-      console.log(newId);
-      settingsMap.push(new google.maps.Map(document.getElementById(newId), mapOptions));
+      settingsMap.push(
+        new google.maps.Map(document.getElementById(newId), mapOptions)
+      );
 
+      count++;
     });
-
     //current click
     $('#current').on('click',function(){
       if(currentChild !== undefined){
@@ -633,7 +634,7 @@ function Show_history(index){
     }
   }
 
-  function cloud_call_to_alert(child_to_alert){
+  function cloud_call_to_alert(child_to_alert) {
     Parse.Cloud.run('alert_email', {"child":child_to_alert}, {
       success: function(status) {
         console.log(status);
@@ -644,3 +645,160 @@ function Show_history(index){
       }
     });
   }
+
+  function mapAddress(childNumber) {
+    //When user inputs an address and clicks the 'Show on Map' buttone, 
+    //the address is shown on map with a marker
+    
+    var address = document.getElementById(childNumber.toString() + "streetAddress").value;
+    geocoder[childNumber].geocode({ 'address': address }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            settingsMap[childNumber].setCenter(results[0].geometry.location);
+            settingsMap[childNumber].setZoom(17);
+            addressMarker[childNumber].setMap(settingsMap[childNumber]);
+            addressMarker[childNumber].setPosition(results[0].geometry.location);
+            addressMarker[childNumber].setDraggable(true);
+
+            //draw default circle on map
+            var radius = document.getElementById(childNumber.toString() + 'radius');
+            var r = Number(radius.options[radius.selectedIndex].value);
+            var circleOptions = {
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.3,
+                strokeWeight: 1,
+                fillColor: '#FF0000',
+                fillOpacity: 0.1,
+                map: settingsMap[childNumber],
+                center: results[0].geometry.location,
+                radius: r
+            };
+            Circle[childNumber].setOptions(circleOptions);
+            Circle[childNumber].bindTo('center', addressMarker[childNumber], 'position');
+        } 
+        else {
+        alert(status +"Address not found");
+      }
+    });
+}
+
+
+function drawCircle(radius, childNumber) {
+    //When the user changes the radius setting, the circle drawing on the map
+    //dynamically changes according to the new radius that the user selected
+
+    var r = Number(radius);
+    var circleOptions = {
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.3,
+                strokeWeight: 1,
+                fillColor: '#FF0000',
+                fillOpacity: 0.1,
+                map: map,
+                center: addressMarker[childNumber].getPosition(),
+                radius: r
+            };
+    Circle[childNumber].setOptions(circleOptions);
+}
+
+
+function getAlertSettings(childNumber) {
+    //When user submits the alert settings, it is validated and stored into
+    // a new alertSettings object
+    var CN = childNumber.toString();
+    var h1 = document.getElementById(CN + 'startHour');
+    var m1 = document.getElementById(CN + 'startMinute');
+    var tod1 = document.getElementById(CN + 'startTimeOfDay');
+    var h2 = document.getElementById(CN + 'endHour');
+    var m2 = document.getElementById(CN + 'endMinute');
+    var tod2 = document.getElementById(CN + 'endTimeOfDay');
+    var radius= document.getElementById(CN + 'radius');
+
+    var startHr = Number(h1.options[h1.selectedIndex].value);
+    var startMin= Number(m1.options[m1.selectedIndex].value);
+    var startTod= tod1.options[tod1.selectedIndex].value;
+    var endHr = Number(h2.options[h2.selectedIndex].value);
+    var endMin= Number(m2.options[m2.selectedIndex].value);
+    var endTod= tod2.options[tod2.selectedIndex].value;
+    var r = Number(radius.options[radius.selectedIndex].value); 
+
+        //adjust time to 24 hour scale
+    if(startTod =="PM") startHr = startHr+12;
+    if(endTod=="PM") endHr = endHr+12;
+    var startTime={
+        hour: startHr,
+        minute: startMin
+    };
+    var endTime={
+        hour: endHr,
+        minute: endMin
+    };
+
+    alertSettings[childNumber]={
+        startTime: startTime,
+        endTime: endTime,
+        position: addressMarker[childNumber].getPosition(),
+        radius: r 
+    };
+} 
+
+function executeAlert() {
+    //carries out tasks of alert: check time range, check distance, if 
+    //the current time falls within the alert time settings abd the child's location
+    //is outside the radius, send an alert to the parent.
+
+    var timeInBounds = checkTime(alertSettings.startTime, alertSettings.endTime);
+
+    if(timeInBounds){ 
+        var childOutOfBounds = checkDistance(alertSettings.radius);
+    }
+    if(childOutOfBounds){sendAlert();}
+}
+
+function checkTime(startTime, endTime){
+    var startTimeCheck;
+    var endTimeCheck;
+
+    var startHr = startTime.hour;
+    var startMin = startTime.minute;
+    var endHr = endTime.hour;
+    var endMin = endTime.minute;
+    
+    var now = new Date();
+    min = now.getMinutes();
+    hour = now.getHours();
+
+    //check if current time is >= start time
+    if (hour>startHr){startTimeCheck=true;}
+    else if(hour==startHr){
+        if (min>=startMin){startTimeCheck=true;}
+        else{startTimeCheck=false;}
+    }
+    else{startTimeCheck=false;}
+
+    //check if current time is <= end time
+    if(hour<endHr){endTimeCheck=true;}
+    else if(hour==endHr){
+        if(min<=endMin){endTimeCheck=true;}
+        else{endTimeCheck=false;}
+    }
+    else{endTimeCheck=false;}
+
+    //if both times check out, return call
+    if (startTimeCheck && endTimeCheck){return true;}
+    else {return false;}
+}
+
+function checkDistance(radius){
+    //Craig - integration with Settings page
+    //SETTINGS INTEGRATION
+    //distFromCenter = google.maps.geometry.spherical.computeDistanceBetween(addressMarker.getPosition(), [Child Location]);
+    console.log("distance from center: "+distFromCenter);
+    console.log("radius setting: "+radius);
+     if (distFromCenter>radius){return true;}
+     else {return false;}    
+}
+
+function sendAlert(){
+    alert("alert triggered");
+    //Xiaoyang's function
+} 
