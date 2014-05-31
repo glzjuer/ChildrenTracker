@@ -251,7 +251,7 @@ $(document).ready(function() {
           '</form>' +
           '<div id="map-canvas' + value.id + '" style="display: block; width:100%; height: 250px"></div>' +
           '</br>' +
-          '<button type="submit" id="confirmAlertSettings"class="btn btn-primary btn-block" onclick="getAlertSettings(' + count + ')">' +
+          '<button type="submit" id="confirmAlertSettings"class="btn btn-primary btn-block" onclick="getAlertSettings(' +value.id+','+ count + ')">' +
             'Confirm Alert Settings' +
           '</button>' +
         '</div>'; 
@@ -279,7 +279,7 @@ $(document).ready(function() {
     //current click
     $('#current').on('click',function(){
       if(currentChild !== undefined){
-        ShowChild(currentChild);
+        ShowChild();
       }
       else alert("select a child");
     })
@@ -444,6 +444,11 @@ function ShowChild(){
 
       var pos = new google.maps.LatLng(child_location.latitude, child_location.longitude);
 
+      //check the location is
+      $.each(alertSettings,function(index,value){
+        if(value.id ===currentChild) executeAlert(index,pos,child_name);
+      })
+      
 
       child_infowindow = new google.maps.InfoWindow({
         map: map,
@@ -458,7 +463,7 @@ function ShowChild(){
       });
     },
     error: function(error) {
-      alert("Error: " + error.code + " " + error.message);
+      console.log("Error: " + error.code + " " + error.message);
     }
   });
 
@@ -698,10 +703,12 @@ function drawCircle(radius, childNumber) {
                 radius: r
             };
     Circle[childNumber].setOptions(circleOptions);
+    console.log("dsf");
+    console.log(addressMarker[childNumber].getPosition());
 }
 
 
-function getAlertSettings(childNumber) {
+function getAlertSettings(child_id,childNumber) {
     //When user submits the alert settings, it is validated and stored into
     // a new alertSettings object
     var CN = childNumber.toString();
@@ -734,24 +741,30 @@ function getAlertSettings(childNumber) {
     };
 
     alertSettings[childNumber]={
+        id : child_id,
         startTime: startTime,
         endTime: endTime,
-        position: addressMarker[childNumber].getPosition(),
+        center: addressMarker[childNumber].getPosition(),
         radius: r 
     };
+    console.log("pos confirmed");
+    console.log(alertSettings[childNumber]);
 } 
 
-function executeAlert() {
+function executeAlert(childNumber,position_of_child,name_of_child) {
     //carries out tasks of alert: check time range, check distance, if 
     //the current time falls within the alert time settings abd the child's location
     //is outside the radius, send an alert to the parent.
 
-    var timeInBounds = checkTime(alertSettings.startTime, alertSettings.endTime);
+    var timeInBounds = checkTime(alertSettings[childNumber].startTime, alertSettings[childNumber].endTime);
 
     if(timeInBounds){ 
-        var childOutOfBounds = checkDistance(alertSettings.radius);
+        var childOutOfBounds = checkDistance(alertSettings[childNumber].radius,position_of_child,alertSettings[childNumber].center);
     }
-    if(childOutOfBounds){sendAlert();}
+    else {console.log("time not in range");return false}
+    if(childOutOfBounds){
+      cloud_call_to_alert(name_of_child);
+    }
 }
 
 function checkTime(startTime, endTime){
@@ -784,14 +797,14 @@ function checkTime(startTime, endTime){
     else{endTimeCheck=false;}
 
     //if both times check out, return call
-    if (startTimeCheck && endTimeCheck){return true;}
-    else {return false;}
+    if (startTimeCheck && endTimeCheck){console.log("check time success");return true;}
+    else {console.log("check time failed ");return false;}
 }
 
-function checkDistance(radius){
+function checkDistance(radius,position_of_child,center){
     //Craig - integration with Settings page
     //SETTINGS INTEGRATION
-    //distFromCenter = google.maps.geometry.spherical.computeDistanceBetween(addressMarker.getPosition(), [Child Location]);
+    // var distFromCenter = google.maps.geometry.spherical.computeDistanceBetween(addressMarker.getPosition(), {child location});
     console.log("distance from center: "+distFromCenter);
     console.log("radius setting: "+radius);
      if (distFromCenter>radius){return true;}
