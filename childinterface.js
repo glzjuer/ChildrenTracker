@@ -16,7 +16,10 @@ query.($("#childId").val(), {
 
 var childId;
 var q;
-
+var current;
+var currentChild_name;
+var currentChild_parent_id;
+var currentChild_parent_email;
 var to_push;
 
 $(document).ready(function() {
@@ -40,7 +43,11 @@ $(document).ready(function() {
         // The object was retrieved successfully. Update database.
         // currentlocation = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
         // console.log(currentlocation);
-        $('#name').text($('#name').text()+ child[0].get('Name'));
+        current = child[0];
+        currentChild_name = child[0].get('Name');
+        currentChild_parent_id = child[0].get("parent").id;
+        currentChild_parent_email = child[0].get("parent").email;
+        $('#name').text($('#name').text()+ currentChild_name);
         $("#parent").text($("#parent").text()+child[0].get("parent").name);
       },
       error: function(object, error) {
@@ -118,6 +125,9 @@ function handleNoGeolocation(errorFlag) {
 
 function updatePosition(position){
 
+  var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+  executeAlert(current.get('alertSettings'),pos);
+
   //Display coordinates on childinterface screen
   to_push = {"Latitude":position.coords.latitude,"Longitude":position.coords.longitude};
   var showposition = "Latitude: "+ position.coords.latitude + 
@@ -125,6 +135,7 @@ function updatePosition(position){
   "<br>" +  Math.random(); 
   $('#showLocation').html(showposition);
 
+  console.log("lat:"+ position.coords.latitude+" long:"+ position.coords.longitude);
 
 
 
@@ -156,5 +167,82 @@ function getIDfromURL(){
   console.log("getIDfromURL called: childId=" +childId);
   return childId;
 }
+
+//alert from child side
+
+function executeAlert(alertSettings,currentlocation) {
+    //carries out tasks of alert: check time range, check distance, if 
+    //the current time falls within the alert time settings abd the child's location
+    //is outside the radius, send an alert to the parent.
+
+
+    var timeInBounds = checkTime(alertSettings.startTime, alertSettings.endTime);
+
+    if(timeInBounds){ 
+        var childOutOfBounds = checkDistance(alertSettings.radius,currentlocation,alertSettings.center);
+    }
+    else {console.log("time not in range");return false}
+    if(childOutOfBounds){
+      cloud_call_to_alert(name_of_child);
+
+    }
+}
+
+function checkTime(startTime, endTime){
+    var startTimeCheck;
+    var endTimeCheck;
+
+    var startHr = startTime.hour;
+    var startMin = startTime.minute;
+    var endHr = endTime.hour;
+    var endMin = endTime.minute;
+    
+    var now = new Date();
+    min = now.getMinutes();
+    hour = now.getHours();
+
+    //check if current time is >= start time
+    if (hour>startHr){startTimeCheck=true;}
+    else if(hour==startHr){
+        if (min>=startMin){startTimeCheck=true;}
+        else{startTimeCheck=false;}
+    }
+    else{startTimeCheck=false;}
+
+    //check if current time is <= end time
+    if(hour<endHr){endTimeCheck=true;}
+    else if(hour==endHr){
+        if(min<=endMin){endTimeCheck=true;}
+        else{endTimeCheck=false;}
+    }
+    else{endTimeCheck=false;}
+
+    //if both times check out, return call
+    if (startTimeCheck && endTimeCheck){console.log("check time success");return true;}
+    else {console.log("check time failed ");return false;}
+}
+
+function checkDistance(radius,position_of_child,center){
+    //Craig - integration with Settings page
+    //SETTINGS INTEGRATION
+    var distFromCenter = google.maps.geometry.spherical.computeDistanceBetween(center, position_of_child);
+    console.log("distance from center: "+distFromCenter);
+    console.log("radius setting: "+radius);
+     if (distFromCenter>radius){return true;}
+     else {return false;}    
+}
+
+function cloud_call_to_alert() {
+    Parse.Cloud.run('alert_email', {"child":currentChild_name,"parent_email":currentChild_parent_email}, {
+      success: function(status) {
+        console.log(status);
+        // ratings should be 4.5
+      },
+      error: function(error) {
+        console.log("failure!"+error);
+      }
+    });
+  }
+
 
 

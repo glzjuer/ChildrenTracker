@@ -4,7 +4,7 @@
 Parse.Cloud.define("alert_email", function(request, response) {
 // console.log(request.user);
 	var child_to_alert = request.params.child;
-	var x =request.user;
+	var the_parent = request.params.parent_email;
 	// console.log(x.get('email')+x.get('username'));
 	// response.success(x.get('email')+x.get('username'));
 
@@ -12,7 +12,7 @@ Parse.Cloud.define("alert_email", function(request, response) {
 	Mailgun.initialize('sandbox4215c05e7a5f41ac862365609ce61930.mailgun.org', 
 	                    'key-63kv5zd4ovi5iidyz2tpne8ix5eaggh7');
 	Mailgun.sendEmail({
-	  to: x.get('email'),
+	  to: the_parent,
 	  from: "Mailgun@CloudCode.com",
 	  subject: child_to_alert+" has gone out of range!",
 	  text: "your child: "+child_to_alert+" has gone out of range!"
