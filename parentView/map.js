@@ -618,6 +618,7 @@ function Show_history(index){
   }
 
   function show_Setting(){
+
     $('#settings').modal('show');
   };
 
