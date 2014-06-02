@@ -226,8 +226,8 @@ function checkTime(startTime, endTime){
     else{endTimeCheck=false;}
 
     //if both times check out, return call
-    console.log(startTimeCheck);
-    console.log(endTimeCheck);
+    // console.log(startTimeCheck);
+    // console.log(endTimeCheck);
     if (startTimeCheck && endTimeCheck){console.log("check time success");return true;}
     else {return false;}
 }
