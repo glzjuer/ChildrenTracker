@@ -251,7 +251,7 @@ $(document).ready(function() {
           '</form>' +
           '<div id="map-canvas' + value.id + '" style="display: block; width:100%; height: 250px"></div>' +
           '</br>' +
-          '<button type="submit" id="confirmAlertSettings"class="btn btn-primary btn-block" onclick="getAlertSettings(' +value.id+','+ count + ')">' +
+          '<button type="submit" id="confirmAlertSettings"class="btn btn-primary btn-block" onclick="getAlertSettings(\'' +value.id+'\','+ count + ')">' +
             'Confirm Alert Settings' +
           '</button>' +
         '</div>'; 
@@ -303,11 +303,11 @@ function initialize_map() {
       var pos = new google.maps.LatLng(position.coords.latitude,
                                        position.coords.longitude);
 
-      var infowindow = new google.maps.InfoWindow({
-        map: map,
-        position: pos,
-        content: 'Your current location.'
-      });
+      // var infowindow = new google.maps.InfoWindow({
+      //   map: map,
+      //   position: pos,
+      //   content: 'Your current location.'
+      // });
 //      locationArray[0] = pos;
 //      alert(pos);
       map.setCenter(pos);
@@ -445,9 +445,9 @@ function ShowChild(){
       var pos = new google.maps.LatLng(child_location.latitude, child_location.longitude);
 
       //check the location is
-      $.each(alertSettings,function(index,value){
-        if(value.id ===currentChild) executeAlert(index,pos,child_name);
-      })
+      // $.each(alertSettings,function(index,value){
+      //   if(value.id ===currentChild) executeAlert(index,pos,child_name);
+      // })
       
 
       child_infowindow = new google.maps.InfoWindow({
@@ -529,6 +529,7 @@ function Show_history(index){
 
   /* addChild() adds a child to the parent's data structure 
       Also outputs the child's ID number */
+
   var child;
   function addChild() {
     var to_add = $('#chld_name').val();
@@ -537,7 +538,8 @@ function Show_history(index){
     child = new Child();
     child.set("Name", to_add);
     child.set("history", []);
-    child.set("parent",{"name":currentUser.get("username"),"id":currentUser.id});
+    child.set("parent",{"name":currentUser.get("username"),"id":currentUser.id,"email":currentUser.get("email")});
+    child.set("setting", {"set": false,'alertSettings':null});
 
     child.save(null, {
       success: function(child) {
@@ -638,180 +640,4 @@ function Show_history(index){
       $(show).slideUp();
     }
   }
-
-  function cloud_call_to_alert(child_to_alert) {
-    Parse.Cloud.run('alert_email', {"child":child_to_alert}, {
-      success: function(status) {
-        console.log(status);
-        // ratings should be 4.5
-      },
-      error: function(error) {
-        console.log("failure!"+error);
-      }
-    });
-  }
-
-  function mapAddress(childNumber) {
-    //When user inputs an address and clicks the 'Show on Map' buttone, 
-    //the address is shown on map with a marker
-    
-    var address = document.getElementById(childNumber.toString() + "streetAddress").value;
-    geocoder[childNumber].geocode({ 'address': address }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            settingsMap[childNumber].setCenter(results[0].geometry.location);
-            settingsMap[childNumber].setZoom(17);
-            addressMarker[childNumber].setMap(settingsMap[childNumber]);
-            addressMarker[childNumber].setPosition(results[0].geometry.location);
-            addressMarker[childNumber].setDraggable(true);
-
-            //draw default circle on map
-            var radius = document.getElementById(childNumber.toString() + 'radius');
-            var r = Number(radius.options[radius.selectedIndex].value);
-            var circleOptions = {
-                strokeColor: '#FF0000',
-                strokeOpacity: 0.3,
-                strokeWeight: 1,
-                fillColor: '#FF0000',
-                fillOpacity: 0.1,
-                map: settingsMap[childNumber],
-                center: results[0].geometry.location,
-                radius: r
-            };
-            Circle[childNumber].setOptions(circleOptions);
-            Circle[childNumber].bindTo('center', addressMarker[childNumber], 'position');
-        } 
-        else {
-        alert(status +"Address not found");
-      }
-    });
-}
-
-
-function drawCircle(radius, childNumber) {
-    //When the user changes the radius setting, the circle drawing on the map
-    //dynamically changes according to the new radius that the user selected
-
-    var r = Number(radius);
-    var circleOptions = {
-                strokeColor: '#FF0000',
-                strokeOpacity: 0.3,
-                strokeWeight: 1,
-                fillColor: '#FF0000',
-                fillOpacity: 0.1,
-                map: map,
-                center: addressMarker[childNumber].getPosition(),
-                radius: r
-            };
-    Circle[childNumber].setOptions(circleOptions);
-    console.log("dsf");
-    console.log(addressMarker[childNumber].getPosition());
-}
-
-
-function getAlertSettings(child_id,childNumber) {
-    //When user submits the alert settings, it is validated and stored into
-    // a new alertSettings object
-    var CN = childNumber.toString();
-    var h1 = document.getElementById(CN + 'startHour');
-    var m1 = document.getElementById(CN + 'startMinute');
-    var tod1 = document.getElementById(CN + 'startTimeOfDay');
-    var h2 = document.getElementById(CN + 'endHour');
-    var m2 = document.getElementById(CN + 'endMinute');
-    var tod2 = document.getElementById(CN + 'endTimeOfDay');
-    var radius= document.getElementById(CN + 'radius');
-
-    var startHr = Number(h1.options[h1.selectedIndex].value);
-    var startMin= Number(m1.options[m1.selectedIndex].value);
-    var startTod= tod1.options[tod1.selectedIndex].value;
-    var endHr = Number(h2.options[h2.selectedIndex].value);
-    var endMin= Number(m2.options[m2.selectedIndex].value);
-    var endTod= tod2.options[tod2.selectedIndex].value;
-    var r = Number(radius.options[radius.selectedIndex].value); 
-
-        //adjust time to 24 hour scale
-    if(startTod =="PM") startHr = startHr+12;
-    if(endTod=="PM") endHr = endHr+12;
-    var startTime={
-        hour: startHr,
-        minute: startMin
-    };
-    var endTime={
-        hour: endHr,
-        minute: endMin
-    };
-
-    alertSettings[childNumber]={
-        id : child_id,
-        startTime: startTime,
-        endTime: endTime,
-        center: addressMarker[childNumber].getPosition(),
-        radius: r 
-    };
-    console.log("pos confirmed");
-    console.log(alertSettings[childNumber]);
-} 
-
-function executeAlert(childNumber,position_of_child,name_of_child) {
-    //carries out tasks of alert: check time range, check distance, if 
-    //the current time falls within the alert time settings abd the child's location
-    //is outside the radius, send an alert to the parent.
-
-    var timeInBounds = checkTime(alertSettings[childNumber].startTime, alertSettings[childNumber].endTime);
-
-    if(timeInBounds){ 
-        var childOutOfBounds = checkDistance(alertSettings[childNumber].radius,position_of_child,alertSettings[childNumber].center);
-    }
-    else {console.log("time not in range");return false}
-    if(childOutOfBounds){
-      cloud_call_to_alert(name_of_child);
-    }
-}
-
-function checkTime(startTime, endTime){
-    var startTimeCheck;
-    var endTimeCheck;
-
-    var startHr = startTime.hour;
-    var startMin = startTime.minute;
-    var endHr = endTime.hour;
-    var endMin = endTime.minute;
-    
-    var now = new Date();
-    min = now.getMinutes();
-    hour = now.getHours();
-
-    //check if current time is >= start time
-    if (hour>startHr){startTimeCheck=true;}
-    else if(hour==startHr){
-        if (min>=startMin){startTimeCheck=true;}
-        else{startTimeCheck=false;}
-    }
-    else{startTimeCheck=false;}
-
-    //check if current time is <= end time
-    if(hour<endHr){endTimeCheck=true;}
-    else if(hour==endHr){
-        if(min<=endMin){endTimeCheck=true;}
-        else{endTimeCheck=false;}
-    }
-    else{endTimeCheck=false;}
-
-    //if both times check out, return call
-    if (startTimeCheck && endTimeCheck){console.log("check time success");return true;}
-    else {console.log("check time failed ");return false;}
-}
-
-function checkDistance(radius,position_of_child,center){
-    //Craig - integration with Settings page
-    //SETTINGS INTEGRATION
-    // var distFromCenter = google.maps.geometry.spherical.computeDistanceBetween(addressMarker.getPosition(), {child location});
-    console.log("distance from center: "+distFromCenter);
-    console.log("radius setting: "+radius);
-     if (distFromCenter>radius){return true;}
-     else {return false;}    
-}
-
-function sendAlert(){
-    alert("alert triggered");
-    //Xiaoyang's function
-} 
+  
