@@ -118,4 +118,5 @@ function getAlertSettings(child_id,childNumber) {
       console.log("child setting can not be updated");
       }
     });
+    $('#' + child_id + 'toshow').slideUp();
 } 
