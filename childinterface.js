@@ -17,6 +17,7 @@ query.($("#childId").val(), {
 var childId;
 var q;
 var current;
+var currentChild_alertsetting;
 var currentChild_name;
 var currentChild_parent_id;
 var currentChild_parent_email;
@@ -44,6 +45,7 @@ $(document).ready(function() {
         // currentlocation = new Parse.GeoPoint({latitude: position.coords.latitude, longitude: position.coords.longitude});
         // console.log(currentlocation);
         current = child[0];
+        currentChild_alertsetting = child[0].get('setting');
         currentChild_name = child[0].get('Name');
         currentChild_parent_id = child[0].get("parent").id;
         currentChild_parent_email = child[0].get("parent").email;
@@ -87,6 +89,7 @@ $(document).ready(function() {
 
   }
 
+
 function getLocationInt(){
 //Query this user's location at a set interval starting from when the page loads
   getLocation();
@@ -97,7 +100,7 @@ function getLocationInt(){
 
 function getLocation(){
 // Try W3C Geolocation (Preferred)
-  console.log("45!!");
+  
   if(navigator.geolocation) {
     browserSupportFlag = true;
     navigator.geolocation.getCurrentPosition(updatePosition, function() {
@@ -124,9 +127,12 @@ function handleNoGeolocation(errorFlag) {
 }
 
 function updatePosition(position){
-
+// console.log("check called");
   var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-  executeAlert(current.get('alertSettings'),pos);
+  if(currentChild_alertsetting.set){
+    executeAlert(currentChild_alertsetting.alertSettings,pos);}
+  else console.log("Not setting yet");
+  
 
   //Display coordinates on childinterface screen
   to_push = {"Latitude":position.coords.latitude,"Longitude":position.coords.longitude};
@@ -153,6 +159,7 @@ function updatePosition(position){
       console.log(currentlocation);
       child[0].set("CurrentLocation", currentlocation);
       child[0].save();
+      currentChild_alertsetting=child[0].get("setting");
     },
     error: function(object, error) {
       // The object was not retrieved successfully.
@@ -175,15 +182,15 @@ function executeAlert(alertSettings,currentlocation) {
     //the current time falls within the alert time settings abd the child's location
     //is outside the radius, send an alert to the parent.
 
-
+    console.log(alertSettings.center);
     var timeInBounds = checkTime(alertSettings.startTime, alertSettings.endTime);
-
+    var google_version_center = new google.maps.LatLng(alertSettings.center.k, alertSettings.center.A);
     if(timeInBounds){ 
-        var childOutOfBounds = checkDistance(alertSettings.radius,currentlocation,alertSettings.center);
+        var childOutOfBounds = checkDistance(alertSettings.radius,currentlocation,google_version_center);
     }
     else {console.log("time not in range");return false}
     if(childOutOfBounds){
-      cloud_call_to_alert(name_of_child);
+      cloud_call_to_alert(currentChild_name);
 
     }
 }
@@ -200,6 +207,7 @@ function checkTime(startTime, endTime){
     var now = new Date();
     min = now.getMinutes();
     hour = now.getHours();
+    console.log(hour+','+min);
 
     //check if current time is >= start time
     if (hour>startHr){startTimeCheck=true;}
@@ -218,15 +226,21 @@ function checkTime(startTime, endTime){
     else{endTimeCheck=false;}
 
     //if both times check out, return call
+    console.log(startTimeCheck);
+    console.log(endTimeCheck);
     if (startTimeCheck && endTimeCheck){console.log("check time success");return true;}
-    else {console.log("check time failed ");return false;}
+    else {return false;}
 }
 
 function checkDistance(radius,position_of_child,center){
     //Craig - integration with Settings page
     //SETTINGS INTEGRATION
+    console.log("pc");
+    console.log(position_of_child);
+    console.log("center");
+    console.log(center);
     var distFromCenter = google.maps.geometry.spherical.computeDistanceBetween(center, position_of_child);
-    console.log("distance from center: "+distFromCenter);
+    console.log("distance from center in meters: "+distFromCenter);
     console.log("radius setting: "+radius);
      if (distFromCenter>radius){return true;}
      else {return false;}    

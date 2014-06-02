@@ -72,7 +72,7 @@ function getAlertSettings(child_id,childNumber) {
     var m2 = document.getElementById(CN + 'endMinute');
     var tod2 = document.getElementById(CN + 'endTimeOfDay');
     var radius= document.getElementById(CN + 'radius');
-
+    
     var startHr = Number(h1.options[h1.selectedIndex].value);
     var startMin= Number(m1.options[m1.selectedIndex].value);
     var startTod= tod1.options[tod1.selectedIndex].value;

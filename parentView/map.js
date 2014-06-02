@@ -303,11 +303,11 @@ function initialize_map() {
       var pos = new google.maps.LatLng(position.coords.latitude,
                                        position.coords.longitude);
 
-      var infowindow = new google.maps.InfoWindow({
-        map: map,
-        position: pos,
-        content: 'Your current location.'
-      });
+      // var infowindow = new google.maps.InfoWindow({
+      //   map: map,
+      //   position: pos,
+      //   content: 'Your current location.'
+      // });
 //      locationArray[0] = pos;
 //      alert(pos);
       map.setCenter(pos);
@@ -445,9 +445,9 @@ function ShowChild(){
       var pos = new google.maps.LatLng(child_location.latitude, child_location.longitude);
 
       //check the location is
-      $.each(alertSettings,function(index,value){
-        if(value.id ===currentChild) executeAlert(index,pos,child_name);
-      })
+      // $.each(alertSettings,function(index,value){
+      //   if(value.id ===currentChild) executeAlert(index,pos,child_name);
+      // })
       
 
       child_infowindow = new google.maps.InfoWindow({
