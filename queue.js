@@ -11,4 +11,3 @@ function Q(){
 	};
 	this.body = new Array();
 }
-

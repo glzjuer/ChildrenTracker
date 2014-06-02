@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "Child Tracker": {
+            "applicationId": "Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", 
+            "masterKey": "ZLbkLGnp3ZPyR2S1ebHlcFd701TNrtHutshS6Lrs"
+        }, 
+        "_default": {
+            "link": "Child Tracker"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.18"
+    }
+}
