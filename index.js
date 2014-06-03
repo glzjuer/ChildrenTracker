@@ -35,22 +35,27 @@
  		if (!open) {
  			
 			var user = new Parse.User();
+      if ($("#inputPassword1").val() != $("#inputPassword2").val()) {
+        alert("Your passwords do not match!"); 
+        //break;
+      } else {
 
-			user.set("username", $("#prt_id").val());
-			user.set("password", $("#inputPassword1").val());
-			user.set("email", $("#inputEmail").val());
-			user.set("children_array",[]);
+  			user.set("username", $("#prt_id").val());
+  			user.set("password", $("#inputPassword1").val());
+  			user.set("email", $("#inputEmail").val());
+  			user.set("children_array",[]);
 
-			user.signUp(null, {
-			  success: function(user) {
-			    // Hooray! Let them use the app now.
-			    location.href='parentView/parentView.html';
-			  },
-			  error: function(user, error) {
-			    // Show the error message somewhere and let the user try again.
-			    alert("Error: " + error.code + " " + error.message);
-			  }
-			});
+  			user.signUp(null, {
+  			  success: function(user) {
+  			    // Hooray! Let them use the app now.
+  			    location.href='parentView/parentView.html';
+  			  },
+  			  error: function(user, error) {
+  			    // Show the error message somewhere and let the user try again.
+  			    alert("Error: " + error.code + " " + error.message);
+  			  }
+  			});
+      }
 		} else {
 			  event.preventDefault();
 			  $('.to_hide').slideUp(400,function(){
