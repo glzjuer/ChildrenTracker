@@ -59,7 +59,7 @@ $(document).ready(function() {
         }
       });
 
-    setInterval(push_history, 15000);
+    setInterval(push_history, 60*1000);
 
 
 })
