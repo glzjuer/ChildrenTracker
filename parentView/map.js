@@ -358,6 +358,7 @@ function initialize_map() {
 function setAllMap(map){
   for(var i=0; i<markers.length; i++){
     markers[i].setMap(map);
+    console.log("clear mark"); // Jun 4
   }
 }
 function clearMarkers(){
@@ -467,6 +468,8 @@ function ShowChild(){
         title: child_name,
         icon: image
       });
+      markers.push(marker); // Jun 4
+      console.log("mark pushed");       // Jun 4
     },
     error: function(error) {
       console.log("Error: " + error.code + " " + error.message);
@@ -525,6 +528,8 @@ function Show_history(index){
         title: child_name,
         icon: image
       });
+      markers.push(marker); // Jun 4
+      console.log("history mark pushed");       // Jun 4
     },
     error: function(error) {
       alert("Error: " + error.code + " " + error.message);
