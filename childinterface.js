@@ -253,7 +253,7 @@ function cloud_call_to_alert() {
         // ratings should be 4.5
       },
       error: function(error) {
-        console.log(error);
+        console.log("failure!"+error);
       }
     });
   }
