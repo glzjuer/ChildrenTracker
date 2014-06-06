@@ -21,7 +21,7 @@ var markers = [];
 var image = 'me.png';
 
 var Sample = new google.maps.LatLng(42.0575, -87.6752778);
-  
+var click_now;
 var theRequest;
 var strs;
 var currentUser;
@@ -258,7 +258,7 @@ $(document).ready(function() {
       '</div>';
 
       $('#drop').prepend('<li onclick = "currentChild = this.id;click_child(currentChild)" id = '+ value.id + '><a>'+value.name+'</a></li>');
-      $('#childSettings').prepend('<a href="#" onclick="openSettings()" class="settingLink"><li class="settingItem" id="0' + value.id + '">' + value.name + ': ' + value.id + toShow +
+      $('#childSettings').prepend('<a href="#" onclick="openSettings()" class="settingLink"><li class="settingItem" id="0' + value.id + '"><strong>Name: </strong>' + value.name + '<strong>    Code: </strong>' + value.id + toShow +
           '</li></a>');
       //Executed on page load. Displays default map settings.
 
@@ -407,6 +407,10 @@ function handleNoGeolocation(errorFlag) {
 
 
  function click_child(child){
+  console.log(child);
+  if(click_now !==undefined) {clearInterval(click_now)};
+
+  // clearInterval(click_now);
     click_now = setInterval(ShowChild,3000);
     console.log("click_child() has been called.");
     var Child = Parse.Object.extend("Child");
