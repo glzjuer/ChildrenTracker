@@ -21,18 +21,18 @@ var markers = [];
 var image = 'me.png';
 
 var Sample = new google.maps.LatLng(42.0575, -87.6752778);
-  
+var click_now;
 var theRequest;
 var strs;
 var currentUser;
-
+var count = 0;
 google.maps.event.addDomListener(window, 'load', initialize_map);
 
 
 $(document).ready(function() {
     // var myModule = require('cloud/myModule.js');
+    var for_modal_initialize = $('#addNewChild').html();
     var toShow;
-    var count = 0;
 
     Parse.initialize("Ciajq1kiZGy1gvO6UKGbtAL4ei2AjpaVCoSfQ14q", "cv1qJ4mvjKmr7pGIi2gh9QNTRfQ0WPFhMjg3rDXb");
     currentUser=Parse.User.current();
@@ -258,10 +258,13 @@ $(document).ready(function() {
       '</div>';
 
       $('#drop').prepend('<li onclick = "currentChild = this.id;click_child(currentChild)" id = '+ value.id + '><a>'+value.name+'</a></li>');
-      $('#childSettings').prepend('<a href="#" onclick="openSettings()" class="settingLink"><li class="settingItem" id="0' + value.id + '">' + value.name + ': ' + value.id + toShow +
-          '</li></a>');
-      //Executed on page load. Displays default map settings.
-
+      $('#childSettings').prepend('<a href="#" onclick="openSettings()" class="settingLink">' +
+          '<li class="settingItem" id="0' + value.id + '">' +
+            '<p class=alignSettings><strong>' + value.name + '</strong></p>' +
+            '<p class=alignSettings>ID: ' + value.id + toShow + '</p>' +
+          '</li>' +
+        '</a>');
+      //Executed on page load. Displays default map settings
       geocoder.push(new google.maps.Geocoder());
       addressMarker.push(new google.maps.Marker());  
       Circle.push(new google.maps.Circle());  
@@ -284,7 +287,13 @@ $(document).ready(function() {
       else alert("select a child");
     })
 
+    //after close add child modal innitialize modal
+    $('#addNewChild').on('show.bs.modal', function (e) {
+      $(this).html(for_modal_initialize);
+    })
+
 });
+
 
 function initialize_map() {
   
@@ -352,6 +361,7 @@ function initialize_map() {
 function setAllMap(map){
   for(var i=0; i<markers.length; i++){
     markers[i].setMap(map);
+    console.log("clear mark"); // Jun 4
   }
 }
 function clearMarkers(){
@@ -400,6 +410,10 @@ function handleNoGeolocation(errorFlag) {
 
 
  function click_child(child){
+  console.log(child);
+  if(click_now !==undefined) {clearInterval(click_now)};
+
+  // clearInterval(click_now);
     click_now = setInterval(ShowChild,3000);
     console.log("click_child() has been called.");
     var Child = Parse.Object.extend("Child");
@@ -461,6 +475,8 @@ function ShowChild(){
         title: child_name,
         icon: image
       });
+      markers.push(marker); // Jun 4
+      console.log("mark pushed");       // Jun 4
     },
     error: function(error) {
       console.log("Error: " + error.code + " " + error.message);
@@ -472,8 +488,18 @@ function ShowChild(){
 
 
 function Show_history(index){
-  clearInterval(click_now);
 
+  if(currentChild ===undefined){
+    $('#choose_child_warning').text('Please select a child!');
+    return;
+  }
+  else $('#choose_child_warning').html('');
+
+  index = parseInt(index);
+  // console.log("Show_history called");
+  // console.log(index);
+  clearInterval(click_now);
+  $('#choose_time_btn').text(((index+1)*10).toString()+' minutes ago');
   if(window_flag){
     child_infowindow.close();
   }
@@ -495,7 +521,8 @@ function Show_history(index){
       var child_name = results[0].get('Name');
 
       var pos = new google.maps.LatLng(child_location.Latitude, child_location.Longitude);
-
+      console.log(child_location);
+      console.log(pos);
 
       child_infowindow = new google.maps.InfoWindow({
         map: map,
@@ -508,6 +535,8 @@ function Show_history(index){
         title: child_name,
         icon: image
       });
+      markers.push(marker); // Jun 4
+      console.log("history mark pushed");       // Jun 4
     },
     error: function(error) {
       alert("Error: " + error.code + " " + error.message);
@@ -531,6 +560,7 @@ function Show_history(index){
       Also outputs the child's ID number */
 
   var child;
+
   function addChild() {
     var to_add = $('#chld_name').val();
     var q = new Q();
@@ -556,6 +586,8 @@ function Show_history(index){
         //             {'id':'CSW2QQss37','name':'1234_1'}]
         currentUser.set("children_array",to_update);
         currentUser.save();
+        add_fix_apperance(child.id,to_add)
+
       },
       error: function(child, error) {
         // Execute any logic that should take place if the save fails.
@@ -565,8 +597,239 @@ function Show_history(index){
     });
 
     $('.to_hide').slideUp(400,function () {
+      $('#add_btn').hide('slide');
       $('.to_show').slideDown();
     })
+
+  }
+
+  function add_fix_apperance(id, name){
+    var toShow = '<div display="block" class="settingDropDown" id = "' + id + 'toshow" aria-hidden="true">' +
+        '<div class="container-fluid">' +
+          '<div id="SetAlertTiming">' +     
+            '<div class="row">' +
+              '<div class="col-xs-6">' +
+                '<label>Start Time: </label>' +
+              '</div>' +
+              '<div class="col-xs-6">' + 
+                '<label>End Time: </label>' + 
+              '</div>' +
+            '</div>' +
+          '<div class="row">' +
+            '<div class="col-xs-6">' + 
+                '<select id="' + count + 'startHour">' +  
+                  '<option value="1">01</option>' + 
+                  '<option value="2">02</option>' + 
+                  '<option value="3">03</option>' + 
+                  '<option value="4">04</option>' + 
+                  '<option value="5">05</option>' + 
+                  '<option value="6">06</option>' + 
+                  '<option value="7">07</option>' + 
+                  '<option selected="selected" value="8">08</option>' + 
+                  '<option value="9">09</option>' + 
+                  '<option value="10">10</option>' + 
+                  '<option value="11">11</option>' + 
+                  '<option value="0">12</option>' + 
+                '</select>' + 
+                '<select id="' + count + 'startMinute">' + 
+                  '<option selected="selected" value ="0">00</option>' + 
+                  '<option value ="1">01</option>' + 
+                  '<option value ="2">02</option>' + 
+                  '<option value ="3">03</option>' + 
+                  '<option value ="4">04</option>' + 
+                  '<option value ="5">05</option>' +  
+                  '<option value ="6">06</option>' + 
+                  '<option value ="7">07</option>' +  
+                  '<option value ="8">08</option>' + 
+                  '<option value ="9">09</option>' + 
+                  '<option value ="10">10</option>' + 
+                  '<option value ="11">11</option>' + 
+                  '<option value ="12">12</option>' +
+                  '<option value ="13">13</option>' +
+                  '<option value ="14">14</option>' +
+                  '<option value ="15">15</option>' + 
+                  '<option value ="16">16</option>' +
+                  '<option value ="17">17</option>' + 
+                  '<option value ="18">18</option>' +
+                  '<option value ="19">19</option>' +
+                  '<option value ="20">20</option>' +
+                  '<option value ="21">21</option>' +
+                  '<option value ="22">22</option>' +
+                  '<option value ="23">23</option>' + 
+                  '<option value ="24">24</option>' +
+                  '<option value ="25">25</option>' + 
+                  '<option value ="26">26</option>' +
+                  '<option value ="27">27</option>' + 
+                  '<option value ="28">28</option>' +
+                  '<option value ="29">29</option>' +
+                  '<option value ="30">30</option>' +
+                  '<option value ="31">31</option>' +
+                  '<option value ="32">32</option>' +
+                  '<option value ="33">33</option>' + 
+                  '<option value ="34">34</option>' +
+                  '<option value ="35">35</option>' + 
+                  '<option value ="36">36</option>' +
+                  '<option value ="37">37</option>' + 
+                  '<option value ="38">38</option>' +
+                  '<option value ="39">39</option>' +
+                  '<option value ="40">40</option>' +
+                  '<option value ="41">41</option>' +
+                  '<option value ="42">42</option>' +
+                  '<option value ="43">43</option>' + 
+                  '<option value ="44">44</option>' +
+                  '<option value ="45">45</option>' + 
+                  '<option value ="46">46</option>' +
+                  '<option value ="47">47</option>' + 
+                  '<option value ="48">48</option>' +
+                  '<option value ="49">49</option>' +
+                  '<option value ="50">50</option>' +
+                  '<option value ="51">51</option>' +
+                  '<option value ="52">52</option>' +
+                  '<option value ="53">53</option>' +
+                  '<option value ="54">54</option>' +
+                  '<option value ="55">55</option>' + 
+                  '<option value ="56">56</option>' +
+                  '<option value ="57">57</option>' + 
+                  '<option value ="58">58</option>' +
+                  '<option value ="59">59</option>' +
+                '</select>' +  
+                '<select id="' + count + 'startTimeOfDay">' +
+                  '<option selected="selected" value="AM">AM</option>' +
+                  '<option value="PM">PM</option>' +
+                '</select>' +  
+              '</div>' +
+              '<div class="col-xs-6">' +
+                '<select id="' + count + 'endHour">' + 
+                  '<option value="1">01</option>' +
+                  '<option value="2">02</option>' +
+                  '<option selected="selected" value="3">03</option>' +
+                  '<option value="4">04</option>' +
+                  '<option value="5">05</option>' +
+                  '<option value="6">06</option>' +
+                  '<option value="7">07</option>' +
+                  '<option value="8">08</option>' +
+                  '<option value="9">09</option>' +
+                  '<option value="10">10</option>' +
+                  '<option value="11">11</option>' +
+                  '<option value="0">12</option>' +
+                '</select>' +
+                '<select id="' + count + 'endMinute">' +
+                  '<option selected="selected" value ="0">00</option>' +
+                  '<option value ="1">01</option>' +
+                  '<option value ="2">02</option>' +
+                  '<option value ="3">03</option>' +
+                  '<option value ="4">04</option>' +
+                  '<option value ="5">05</option>' + 
+                  '<option value ="6">06</option>' +
+                  '<option value ="7">07</option>' + 
+                  '<option value ="8">08</option>' +
+                  '<option value ="9">09</option>' +
+                  '<option value ="10">10</option>' +
+                  '<option value ="11">11</option>' +
+                  '<option value ="12">12</option>' +
+                  '<option value ="13">13</option>' + 
+                  '<option value ="14">14</option>' +
+                  '<option value ="15">15</option>' + 
+                  '<option value ="16">16</option>' +
+                  '<option value ="17">17</option>' + 
+                  '<option value ="18">18</option>' +
+                  '<option value ="19">19</option>' +
+                  '<option value ="20">20</option>' +
+                  '<option value ="21">21</option>' +
+                  '<option value ="22">22</option>' +
+                  '<option value ="23">23</option>' +
+                  '<option value ="24">24</option>' +
+                  '<option value ="25">25</option>' + 
+                  '<option value ="26">26</option>' +
+                  '<option value ="27">27</option>' +
+                  '<option value ="28">28</option>' +
+                  '<option value ="29">29</option>' +
+                  '<option value ="30">30</option>' +
+                  '<option value ="31">31</option>' +
+                  '<option value ="32">32</option>' +
+                  '<option value ="33">33</option>' +
+                  '<option value ="34">34</option>' +
+                  '<option value ="35">35</option>' + 
+                  '<option value ="36">36</option>' +
+                  '<option value ="37">37</option>' + 
+                  '<option value ="38">38</option>' +
+                  '<option value ="39">39</option>' +
+                  '<option value ="40">40</option>' +
+                  '<option value ="41">41</option>' +
+                  '<option value ="42">42</option>' +
+                  '<option value ="43">43</option>' + 
+                  '<option value ="44">44</option>' +
+                  '<option value ="45">45</option>' + 
+                  '<option value ="46">46</option>' +
+                  '<option value ="47">47</option>' + 
+                  '<option value ="48">48</option>' +
+                  '<option value ="49">49</option>' +
+                  '<option value ="50">50</option>' +
+                  '<option value ="51">51</option>' +
+                  '<option value ="52">52</option>' +
+                  '<option value ="53">53</option>' + 
+                  '<option value ="54">54</option>' +
+                  '<option value ="55">55</option>' + 
+                  '<option value ="56">56</option>' +
+                  '<option value ="57">57</option>' + 
+                  '<option value ="58">58</option>' +
+                  '<option value ="59">59</option>' +
+                '</select>' +  
+                '<select id="' + count + 'endTimeOfDay">' +
+                  '<option value="AM">AM</option>' +
+                  '<option selected="selected" value="PM">PM</option>' +
+                '</select>' +  
+            '</div>' +
+          '</div>' +
+        '</div>' +
+          '<div id="setAlertRadius">' +
+            '<div class="row">' +
+              '<div class="col-xs-12">' +
+                '<label>Radius: </label>' +
+                '<select id="' + count + 'radius" onchange="drawCircle(this.value, ' + count + ')">' +
+                  '<option value="45.72"> 50 yards </option>' +
+                  '<option value ="91.44">100 yards</option>' +
+                  '<option value ="182.88">200 yards</option>' +
+                  '<option value ="457.2">500 yards</option>' +
+                '</select>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          '<form id="' + count + 'alert-location" class="form-inline" role="form">' +
+            '<h5><strong>Enter a street address: </strong></h5>' +
+            '<div class="form-group">' +
+              '<label class="sr-only" for="' + count + 'streetAddress">Street Address</label>' +
+              '<input type="text" class="form-control" id="' + count + 'streetAddress" placeholder="Enter Street Address"></input>' +
+            '</div>' +
+              '<button type="button" id="MapIt" class="btn btn-default" onclick="mapAddress(' + count + ')">Show on Map</button>' +
+          '</form>' +
+          '<div id="map-canvas' + id + '" style="display: block; width:100%; height: 250px"></div>' +
+          '</br>' +
+          '<button type="submit" id="confirmAlertSettings"class="btn btn-primary btn-block" onclick="getAlertSettings(\'' +id+'\','+ count + ')">' +
+            'Confirm Alert Settings' +
+          '</button>' +
+        '</div>'; 
+      '</div>';
+
+
+      $('#drop').prepend('<li onclick = "currentChild = this.id;click_child(currentChild)" id = '+ id + '><a>'+name+'</a></li>');
+      $('#childSettings').prepend('<a href="#" onclick="openSettings()" class="settingLink"><li class="settingItem" id="0' + id + '">' + name + ': ' + id + toShow +
+          '</li></a>');
+
+      geocoder.push(new google.maps.Geocoder());
+      addressMarker.push(new google.maps.Marker());  
+      Circle.push(new google.maps.Circle());  
+      var mapOptions = {
+          center: new google.maps.LatLng(39.083333,-98.583333),
+          zoom: 2
+      };
+      var newId = 'map-canvas' + id.toString();
+      settingsMap.push(
+        new google.maps.Map(document.getElementById(newId), mapOptions)
+      );
+
+      count++;
+
   }
 
   function update_prt(child_id, child_name){

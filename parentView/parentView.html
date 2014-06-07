@@ -61,11 +61,11 @@
 			  </ul>
 			</div>
 			<div class="btn-group btn-block">
-			  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown">
+			  <button type="button" class="btn btn-info dropdown-toggle btn-block" data-toggle="dropdown" id = "choose_time_btn">
 			    Choose Time <span class="caret"></span>
 			  </button>
 			  <ul class="dropdown-menu pull-right btn-block" role="menu">
-			  	<li><a href="#" id="curent">Current</a></li>
+			  	<li><a href="#" id="curent" onclick="$('#choose_time_btn').text('Current');click_child(currentChild); $('#choose_time_btn').text('Current');">Current</a></li>
 			    <li><a href="#" id="0" onclick="Show_history(this.id)">10 minutes ago</a></li>
 			    <li><a href="#" id="1" onclick="Show_history(this.id)">20 minutes ago</a></li>
 			    <li><a href="#" id="2" onclick="Show_history(this.id)">30 minutes ago</a></li>
@@ -75,12 +75,13 @@
 			  </ul>
 			</div>
 		</div>
+		<div><center><strong id = "choose_child_warning"></strong></center></div>
 
-		<p>
+		<center><p>
 			<div class="container" id="views">
 				<div id="childrenMap" onload="initialize_map()"></div>
 			<div>
-		</p>
+		</p></center>
 
 <!-- SETTINGS MODAL -->
 		<div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -91,7 +92,7 @@
         					<h3 class="modal-title" id="myModalLabel">Settings</h3>
      				</div>
       			<div class="modal-body" id="settingsBody">
-      				<p margin="auto">Click on any child to expand their settings: </p>
+      				<center><p>Click on any child to expand their settings: </p></center>
       				<ul id="childSettings"></ul>
 			  	</div>
   		
@@ -135,9 +136,9 @@
 			
 
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary" onclick="addChild()">Add Child</button>
-		        <button type="button" class="btn btn-lg btn-default to_show" data-dismiss="modal" onclick="location='parentView.html'" style="display:none">OK</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal" id = "close_add_child">Close</button>
+		        <button type="button" class="btn btn-primary" onclick="addChild()" id = "add_btn">Add Child</button>
+		        
 		      </div>
 		    </div>
 		  </div>
