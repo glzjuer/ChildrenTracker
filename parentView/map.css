@@ -21,6 +21,10 @@ a.settingLink {
 	padding-right:0px;
 }
 
+#MapIt {
+	margin-bottom: 1.5em;
+}
+
 #childSettings {
 	width: 100%;
 	margin: 0px;
@@ -33,10 +37,17 @@ a.settingLink {
 
 .settingItem {
 	width: 100%;
-	list-style: none; 
+	list-style: none;
 	padding: 10px 20px 10px 20px;
 	border-top: 1px solid #e5e5e5;
 	border-bottom: 1px solid #e5e5e5;
+	white-space: nowrap;
+}
+
+.alignSettings {
+	display: inline-block;
+	white-space: normal;
+	width: 60%;
 }
 
 #map-canvas { 

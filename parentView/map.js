@@ -258,10 +258,13 @@ $(document).ready(function() {
       '</div>';
 
       $('#drop').prepend('<li onclick = "currentChild = this.id;click_child(currentChild)" id = '+ value.id + '><a>'+value.name+'</a></li>');
-      $('#childSettings').prepend('<a href="#" onclick="openSettings()" class="settingLink"><li class="settingItem" id="0' + value.id + '"><strong>Name: </strong>' + value.name + '<strong>    Code: </strong>' + value.id + toShow +
-          '</li></a>');
-      //Executed on page load. Displays default map settings.
-
+      $('#childSettings').prepend('<a href="#" onclick="openSettings()" class="settingLink">' +
+          '<li class="settingItem" id="0' + value.id + '">' +
+            '<p class=alignSettings><strong>' + value.name + '</strong></p>' +
+            '<p class=alignSettings>ID: ' + value.id + toShow + '</p>' +
+          '</li>' +
+        '</a>');
+      //Executed on page load. Displays default map settings
       geocoder.push(new google.maps.Geocoder());
       addressMarker.push(new google.maps.Marker());  
       Circle.push(new google.maps.Circle());  
