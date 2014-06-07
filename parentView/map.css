@@ -1,13 +1,3 @@
-a:link, a:visited{
-    text-decoration: none;
-}
-
-a.settingLink {
-	display:block;
-	color: black; 
-	width: 100%
-}
-
 #childrenMap {
     width: 275px;
     height: 355px;
@@ -15,14 +5,14 @@ a.settingLink {
 	margin: 10px;
 }
 
+#MapIt {
+	margin-bottom: 1.5em;
+}
+
 #settingsBody {
 	/*text-align: center;*/
 	padding-left:0px;
 	padding-right:0px;
-}
-
-#MapIt {
-	margin-bottom: 1.5em;
 }
 
 #childSettings {
@@ -37,17 +27,10 @@ a.settingLink {
 
 .settingItem {
 	width: 100%;
-	list-style: none;
+	list-style: none; 
 	padding: 10px 20px 10px 20px;
 	border-top: 1px solid #e5e5e5;
 	border-bottom: 1px solid #e5e5e5;
-	white-space: nowrap;
-}
-
-.alignSettings {
-	display: inline-block;
-	white-space: normal;
-	width: 60%;
 }
 
 #map-canvas { 
@@ -63,3 +46,15 @@ a.settingLink {
 #SetAlertTiming {
 	padding: 10px;
 }
+
+a:link, a:visited{
+    text-decoration: none;
+}
+
+a.settingLink {
+	display:block;
+	color: black; 
+	width: 100%
+}
+
+

@@ -260,8 +260,14 @@ $(document).ready(function() {
       $('#drop').prepend('<li onclick = "currentChild = this.id;click_child(currentChild)" id = '+ value.id + '><a>'+value.name+'</a></li>');
       $('#childSettings').prepend('<a href="#" onclick="openSettings()" class="settingLink">' +
           '<li class="settingItem" id="0' + value.id + '">' +
-            '<p class=alignSettings><strong>' + value.name + '</strong></p>' +
-            '<p class=alignSettings>ID: ' + value.id + toShow + '</p>' +
+            '<div class="row">' +
+              '<div class="col-xs-6">' +
+                '<p><strong>' + value.name + '</strong></p>' +
+              '</div>' +
+              '<div class="col-xs-6">' +
+                '<p>ID: ' + value.id + '</p>' +
+              '</div>' + toShow +
+            '</div>' +
           '</li>' +
         '</a>');
       //Executed on page load. Displays default map settings
